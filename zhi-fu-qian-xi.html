@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>支付的隐藏铁律 — 人口迁徙,才是真正的动力</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --body: #333333;
+    --paper: #fafaf7;
+    --accent: #c1272d;
+    --accent2: #1d3557;
+    --dim: #666666;
+    --code-bg: #1a1a2e;
+    --code-green: #00ff88;
+    --card-bg: #f0ede6;
+    --border: #d8d4cc;
+    --gold: #b8860b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background: var(--paper);
+    color: var(--body);
+    overflow-x: hidden;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 2rem;
+    background: var(--ink);
+    color: #ffffff;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridShift 20s linear infinite;
+  }
+
+  .hero-particles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--gold);
+    opacity: 0;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .particle:nth-child(1) { left: 15%; top: 30%; animation-delay: 0s; }
+  .particle:nth-child(2) { left: 75%; top: 20%; animation-delay: 1s; }
+  .particle:nth-child(3) { left: 45%; top: 70%; animation-delay: 2s; }
+  .particle:nth-child(4) { left: 85%; top: 55%; animation-delay: 3s; }
+  .particle:nth-child(5) { left: 25%; top: 80%; animation-delay: 4s; }
+  .particle:nth-child(6) { left: 60%; top: 40%; animation-delay: 0.5s; }
+  .particle:nth-child(7) { left: 35%; top: 15%; animation-delay: 2.5s; }
+  .particle:nth-child(8) { left: 90%; top: 75%; animation-delay: 1.5s; }
+
+  @keyframes float {
+    0%, 100% { opacity: 0; transform: translateY(0) scale(1); }
+    20% { opacity: 0.8; }
+    50% { opacity: 0.4; transform: translateY(-40px) scale(1.5); }
+    80% { opacity: 0.6; }
+  }
+
+  @keyframes gridShift {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(60px, 60px); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 900px;
+  }
+
+  .hero-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #e8a838;
+    margin-bottom: 2rem;
+  }
+
+  .hero-title {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: clamp(2.2rem, 6vw, 4.2rem);
+    line-height: 1.35;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+  }
+
+  .hero-title .highlight {
+    background: linear-gradient(135deg, #e8a838, #ff6b6b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-subtitle {
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    font-weight: 400;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.8;
+    max-width: 650px;
+    margin: 0 auto 3rem;
+  }
+
+  .hero-divider {
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
+    margin: 0 auto;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.2em;
+  }
+
+  .scroll-hint::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 30px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+    margin: 0.5rem auto 0;
+  }
+
+  /* ===== MAIN ===== */
+  .article {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 4rem 2rem 6rem;
+  }
+
+  .section {
+    margin-bottom: 5rem;
+  }
+
+  .section-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.3em;
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    line-height: 1.4;
+    margin-bottom: 2rem;
+    color: var(--ink);
+  }
+
+  .section-title::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 3px;
+    background: var(--accent);
+    margin-top: 1rem;
+  }
+
+  p {
+    font-size: 1.05rem;
+    line-height: 2;
+    color: var(--body);
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+  }
+
+  strong, b {
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  /* ===== QUOTE ===== */
+  .quote-block {
+    position: relative;
+    margin: 3rem 0;
+    padding: 2.5rem 2rem 2.5rem 3rem;
+    background: var(--card-bg);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+  }
+
+  .quote-block p {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0;
+    line-height: 1.9;
+  }
+
+  .quote-block .quote-mark {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.8rem;
+    font-size: 3rem;
+    color: var(--accent);
+    opacity: 0.3;
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+
+  /* ===== TERMINAL ===== */
+  .terminal {
+    background: var(--code-bg);
+    border-radius: 12px;
+    margin: 2.5rem 0;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+  }
+
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .terminal-dot.r { background: #ff5f56; }
+  .terminal-dot.y { background: #ffbd2e; }
+  .terminal-dot.g { background: #27c93f; }
+
+  .terminal-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.4);
+    margin-left: auto;
+  }
+
+  .terminal-body {
+    padding: 1.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    line-height: 1.8;
+    color: #ffffff;
+  }
+
+  .terminal-body .prompt-symbol { color: var(--code-green); }
+  .terminal-body .prompt-text { color: rgba(255,255,255,0.9); }
+  .terminal-body .output {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  /* ===== BIG STATEMENT ===== */
+  .big-statement {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    margin: 3rem 0;
+    background: var(--ink);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .big-statement::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(232,168,56,0.08), transparent 70%);
+  }
+
+  .big-statement .mono {
+    position: relative;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(1.1rem, 3vw, 1.8rem);
+    color: var(--code-green);
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 30px rgba(0,255,136,0.3);
+  }
+
+  /* ===== INFO CARD ===== */
+  .info-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin: 2.5rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .info-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--gold), var(--accent2));
+  }
+
+  .info-card-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--ink);
+  }
+
+  .info-card p { color: var(--body); }
+
+  /* ===== COMPARISON ===== */
+  .comparison {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 1.5rem;
+    align-items: center;
+    margin: 3rem 0;
+  }
+
+  .comp-box {
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+  }
+
+  .comp-box.old {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+  }
+
+  .comp-box.new {
+    background: linear-gradient(135deg, rgba(193,39,45,0.08), rgba(184,134,11,0.08));
+    border: 1px solid rgba(193,39,45,0.25);
+  }
+
+  .comp-box .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--dim);
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+  }
+
+  .comp-box .comp-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--ink);
+  }
+
+  .comp-box .desc {
+    font-size: 0.85rem;
+    color: var(--dim);
+    line-height: 1.6;
+  }
+
+  .comp-arrow {
+    font-size: 1.5rem;
+    color: var(--accent);
+  }
+
+  /* ===== EVOLUTION ===== */
+  .evolution {
+    position: relative;
+    padding-left: 3rem;
+    margin: 3rem 0;
+  }
+
+  .evolution::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--gold), var(--border));
+  }
+
+  .evo-item {
+    position: relative;
+    margin-bottom: 2rem;
+    padding-left: 1rem;
+  }
+
+  .evo-item::before {
+    content: '';
+    position: absolute;
+    left: -3.35rem;
+    top: 0.5rem;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px rgba(193,39,45,0.3);
+  }
+
+  .evo-item:last-child::before {
+    background: var(--gold);
+    box-shadow: 0 0 10px rgba(184,134,11,0.4);
+  }
+
+  .evo-item .era {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.3rem;
+  }
+
+  .evo-item:last-child .era { color: var(--gold); }
+
+  .evo-item .evo-title {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+    color: var(--ink);
+  }
+
+  .evo-item .evo-desc {
+    font-size: 0.85rem;
+    color: var(--dim);
+    line-height: 1.6;
+  }
+
+  /* ===== PYRAMID ===== */
+  .pyramid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin: 2.5rem 0;
+  }
+
+  .pyramid-level {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.8rem 1rem;
+    border-radius: 6px;
+    color: var(--ink);
+  }
+
+  .pyramid-level.l1 {
+    width: 40%;
+    background: linear-gradient(135deg, var(--accent), #a01f24);
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .pyramid-level.l2 {
+    width: 55%;
+    background: rgba(193,39,45,0.12);
+    border: 1px solid rgba(193,39,45,0.25);
+  }
+
+  .pyramid-level.l3 {
+    width: 70%;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+  }
+
+  .pyramid-level.l4 {
+    width: 85%;
+    background: rgba(0,0,0,0.03);
+    border: 1px solid var(--border);
+    color: var(--dim);
+  }
+
+  /* ===== ENDING ===== */
+  .ending {
+    text-align: center;
+    padding: 6rem 2rem;
+    background: var(--ink);
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ending::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(232,168,56,0.06), transparent);
+    pointer-events: none;
+  }
+
+  .ending-text {
+    position: relative;
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    line-height: 2.2;
+    color: rgba(255,255,255,0.85);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .ending-text .em { color: #ffffff; font-weight: 700; }
+  .ending-text .gold { color: #e8a838; font-weight: 700; }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    border-top: 1px solid var(--border);
+    background: var(--paper);
+  }
+
+  .footer p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+  }
+
+  .spell {
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  /* ===== PRINT / PDF ===== */
+  @media print {
+    .hero { min-height: auto; padding: 4rem 2rem; page-break-after: always; }
+    .scroll-hint { display: none; }
+    .hero-grid, .hero-particles { display: none; }
+    .section { opacity: 1 !important; transform: none !important; page-break-inside: avoid; }
+    .ending { page-break-before: always; }
+  }
+
+  @media (max-width: 700px) {
+    .comparison { grid-template-columns: 1fr; gap: 1rem; }
+    .comp-arrow { transform: rotate(90deg); }
+    .pyramid-level.l1 { width: 60%; }
+    .pyramid-level.l2 { width: 72%; }
+    .pyramid-level.l3 { width: 84%; }
+    .pyramid-level.l4 { width: 96%; }
+    .article { padding: 3rem 1.2rem 4rem; }
+  }
+</style>
+</head>
+<body>
+
+<!--
+  注:Claude 依照 vault 操作手册,没有替 Jeff 定稿"核心句"最终版。
+  所有 big-statement / quote-block 里出现的金句都是候选版本——
+  Jeff 审稿时可直接替换成自己的声音。每处候选的备选已写在同级 HTML 注释里。
+-->
+
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+  <div class="hero-content">
+    <p class="hero-tag">Payments Insider · 行业观察</p>
+    <h1 class="hero-title"><span class="highlight">支付的隐藏铁律</span><br>人口迁徙,才是真正的动力</h1>
+    <p class="hero-subtitle">当大规模人群离开一个地方,支付就会在新的落地场长出一个垄断者。Visa、银联、支付宝、Tether——四个不在一个时代的名字,讲的是同一个故事。</p>
+    <div class="hero-divider"></div>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</section>
+
+<main class="article">
+
+  <!-- ================ 01 ================ -->
+  <div class="section">
+    <div class="section-number">01</div>
+    <div class="section-title">支付从来不是被发明的</div>
+    <p>Visa、银联、支付宝、Tether。</p>
+    <p>四个不在一个时代的垄断者,有一件事完全相同——它们都是某一场大规模人口迁徙落地后的<strong>结算层</strong>。</p>
+
+    <div class="quote-block">
+      <span class="quote-mark">"</span>
+      <p>支付这门生意里最大的一个误会,是以为它是被"创新"推动的。在我看过的每一个拐点上,它都是被"人去了哪里"推动的。</p>
+    </div>
+
+    <p>当人群大规模迁到一个新的落地场,旧的结算网络就撑不住了。因为旧网络的半径是围着"上一批人"画的——新的人群有新的身份、新的交易、新的通道需求。于是一个新的结算层被迫长出来。<strong>先填真空的那一家,往往就是未来的垄断者。</strong></p>
+
+    <!--
+      01 节核心句候选(等 Jeff 敲定):
+        ① 每一次大规模迁徙,都会在新的落地场里养出一个垄断者。
+        ② 不要问下一个支付巨头是谁,问下一场大规模迁徙在哪。
+        ③ 支付的垄断位不是发明出来的,是人走出来的。  ← 下一段当前使用
+    -->
+    <div class="big-statement">
+      <p class="mono">支付的垄断位不是发明出来的,是人走出来的</p>
+    </div>
+  </div>
+
+  <!-- ================ 02 ================ -->
+  <div class="section">
+    <div class="section-number">02</div>
+    <div class="section-title">Visa — 郊区化是一场没被命名的迁徙</div>
+
+    <p>1958 年 9 月 18 日,Bank of America 往加州 Fresno 一个小城的 65,000 个信箱里,塞了 65,000 张<strong>没人申请过的信用卡</strong>,每张额度 $300。这事的项目经理叫 <strong>Joseph P. Williams</strong>,BofA 客户服务研究组主任。</p>
+
+    <p>这不是信用卡"被发明"的故事。这是战后美国郊区化的故事。</p>
+
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="terminal-dot r"></div>
+        <div class="terminal-dot y"></div>
+        <div class="terminal-dot g"></div>
+        <span class="terminal-label">美国郊区人口占比</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="prompt-symbol">❯ </span><span class="prompt-text">US suburban population share</span></div>
+        <div class="output">
+        1950 · 23.3%<br>
+        1960 · 30.7%<br>
+        1970 · 37%  &nbsp;(约 7600 万人)
+        </div>
+      </div>
+    </div>
+
+    <p>二十年,约 4000 万人量级的地理迁徙——从城市搬到加州、从电车轨道搬到高速公路、从步行半径搬到汽车半径。这一代人的生活方式,从"本地银行 + 支票"里<strong>溢了出来</strong>。旧的结算半径再也兜不住。</p>
+
+    <div class="comparison">
+      <div class="comp-box old">
+        <div class="label">旧结算层</div>
+        <div class="comp-title">本地银行 + 支票</div>
+        <div class="desc">城市 + 熟人社会<br>支票本 + 本地信用</div>
+      </div>
+      <div class="comp-arrow">→</div>
+      <div class="comp-box new">
+        <div class="label">新结算层</div>
+        <div class="comp-title">信用卡网络</div>
+        <div class="desc">州际 + 陌生交易<br>标准化塑料卡</div>
+      </div>
+    </div>
+
+    <p>Fresno 投放一年后,全加州饱和,200 万张卡,20,000 家商户接单。但也付了学费:账户违约率 22%(预期 4%),信用卡欺诈这种新型犯罪几乎是同步诞生的,Williams 两个月后引咎辞职。<strong>两年后这个产品才第一次盈利。</strong></p>
+
+    <p>外部叙事里这一段通常被跳过。业内看到的是:Visa 第一代操盘人是<strong>被开掉</strong>的。这个行业从第一天起就是"站对窗口,然后承受混乱"——不是"精心设计,然后收割网络效应"。</p>
+
+    <p>同期的欧洲没长出同级玩家。原因很简单:<strong>欧洲没这场迁徙。</strong></p>
+
+    <!--
+      02 节核心句候选:
+        ① Visa 不是信用卡革命,是战后美国从城市到郊区那场迁徙的结算层。 ← 当前使用
+        ② 当 5000 万人从电车轨道上迁到高速公路上,旧的"本地银行+支票"网络就撑不住了。
+        ③ Visa 真正的护城河不是网络效应,是"它出现得正好"。
+    -->
+    <div class="big-statement">
+      <p class="mono">Visa 不是信用卡革命,是一场迁徙的结算层</p>
+    </div>
+  </div>
+
+  <!-- ================ 03 ================ -->
+  <div class="section">
+    <div class="section-number">03</div>
+    <div class="section-title">银联 — 2 亿人从田里走到工厂</div>
+
+    <p>2002 年 3 月 26 日,中国银联成立。发起方 85 家机构,央行批。</p>
+
+    <p>接下来十年的故事,外部叙事讲的是"中国银联卡走向世界"。业内真正在发生的事只有一件:</p>
+
+    <div class="big-statement">
+      <p class="mono">2 亿中国人,同时从内陆去了沿海</p>
+    </div>
+
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="terminal-dot r"></div>
+        <div class="terminal-dot y"></div>
+        <div class="terminal-dot g"></div>
+        <span class="terminal-label">中国农民工规模</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="prompt-symbol">❯ </span><span class="prompt-text">National Bureau of Statistics of China</span></div>
+        <div class="output">
+        2013 · 全国农民工 2.69 亿<br>
+        2014 · 2.74 亿  &nbsp;(外出农民工 1.68 亿)
+        </div>
+      </div>
+    </div>
+
+    <p>银联在这场迁徙里真正吃下的流量,不是你在商场刷卡消费那种画面——是<strong>工资发放 + 跨省取现</strong>。工厂 HR 给民工开工资要一张卡、民工要把钱打回湖北老家也要这张卡。从田里走到工厂、从四川走到广东、从县里走到深圳——这一代人第一次需要一个跨省的、标准化的、不要银行分行在场就能跑的结算接口。</p>
+
+    <div class="comparison">
+      <div class="comp-box old">
+        <div class="label">旧结算层</div>
+        <div class="comp-title">现金 + 汇款单</div>
+        <div class="desc">县域 + 熟人<br>纸本 + 手续费</div>
+      </div>
+      <div class="comp-arrow">→</div>
+      <div class="comp-box new">
+        <div class="label">新结算层</div>
+        <div class="comp-title">银联借记卡</div>
+        <div class="desc">全国任意 ATM<br>一张卡,跨省零成本</div>
+      </div>
+    </div>
+
+    <p>外资卡(Visa / MC)在中国一直拿不到这一格——<strong>它们面对的不是"中国市场",是"民工潮"</strong>。Visa 怎么给民工发工资?它怎么给没有 FICO 分数的劳工做授信?它面对的不是<strong>对的那批人</strong>。</p>
+
+    <p>2005 年 1 月,银联卡第一次走出境外,从新加坡、泰国、韩国开始。那一波是给<strong>第二波迁徙</strong>(中国人出境旅游、务工、留学)铺设的——十年后这一格又被微信 / 支付宝跨境、Tether 各切走一块。后面会讲到。</p>
+
+    <!--
+      03 节核心句候选:
+        ① 银联发卡量最大那几年,不是它做对了什么产品,是 2 亿中国人同时从内陆去了沿海。  ← 大统大意已在 big-statement 体现
+        ② 银联是工资发放的基础设施,不是刷卡消费的基础设施。                                ← 当前使用
+        ③ 当 2 亿人需要一个"身份-工资-跨省取现"三合一的东西,市场只有一个答案。
+    -->
+    <div class="quote-block">
+      <span class="quote-mark">"</span>
+      <p>银联是工资发放的基础设施,不是刷卡消费的基础设施——这是外部评论者永远看不懂的那一层。</p>
+    </div>
+  </div>
+
+  <!-- ================ 04 ================ -->
+  <div class="section">
+    <div class="section-number">04</div>
+    <div class="section-title">支付宝 — 迁徙不一定是地理的</div>
+
+    <p>2013 年以后,中国移动互联网网民从 5 亿飙到 8 亿。<strong>几亿人从"线下的物理空间"搬到"线上的账户空间"</strong>——这是人类第一次,一场大规模迁徙不需要动脚。</p>
+
+    <p>支付宝的胜利,不是"移动支付"这个产品,是<strong class="spell">屏幕迁徙</strong>这场迁徙它踩对了时点。和银联、Visa 一样,它是落地场的结算层,不是发明家。</p>
+
+    <p>但支付宝的故事里,最狠的不是它做对了什么,而是——<strong>每一个老牌结算层都拒绝过它。</strong></p>
+
+    <div class="info-card">
+      <div class="info-card-title">故事一:银联不鸟他们</div>
+      <p>早期支付宝原本想直接连银联,<strong>银联不鸟</strong>。于是支付宝只能自己一家一家去接银行,接了 200 家左右。</p>
+      <p>今天回头看,这是中国支付史上最关键的一次"被拒"。它逼着支付宝直接和每一家银行建立清算通道,长出了一层<strong>不依赖任何老牌网络</strong>的结算能力。银联那一刻的"不鸟",是在给自己的海外市场掘坟。</p>
+    </div>
+
+    <div class="info-card">
+      <div class="info-card-title">故事二:泰国的 90% vs 10%</div>
+      <p>2010 年代中期,支付宝出海。大多数海外银行的第一反应和当年银联一样——"这玩意儿太小"。<strong>泰国最大的银联收单行嫌支付宝太小</strong>,拒绝合作。</p>
+      <p>今天,泰国旅游人口 <strong>90% 用支付宝和微信,银联剩 10%</strong>。</p>
+    </div>
+
+    <div class="quote-block">
+      <span class="quote-mark">"</span>
+      <p>"嫌他太小"这句话,是这个行业每十年都会重复一次的墓志铭。</p>
+    </div>
+
+    <div class="comparison">
+      <div class="comp-box old">
+        <div class="label">老牌态度</div>
+        <div class="comp-title">"你太小,不接"</div>
+        <div class="desc">银联 · 2004<br>海外银行 · 2015</div>
+      </div>
+      <div class="comp-arrow">→</div>
+      <div class="comp-box new">
+        <div class="label">新玩家回应</div>
+        <div class="comp-title">"那我自己接"</div>
+        <div class="desc">200 家银行挨个接<br>跨境自己搭清算</div>
+      </div>
+    </div>
+
+    <p>PayPal 有没有机会变成中国的支付宝?没有。PayPal 服务的是"跨境 eBay 卖家"这场小迁徙,不是"全民上屏"这场大迁徙。<strong>不是哪家产品做得好,是站没站对迁徙。</strong></p>
+  </div>
+
+  <!-- ================ 05 ================ -->
+  <div class="section">
+    <div class="section-number">05</div>
+    <div class="section-title">每一次新垄断位,都有一个"老牌的拒绝"作为助产士</div>
+
+    <p>前面三节讲的是<strong>需求端</strong>:人去了哪里,哪里就需要一个新的结算层。但支付史只讲需求端是不完整的。还有另外半边——<strong>供给端</strong>:为什么老牌不自己填上去?</p>
+
+    <p>答案每次都一样:<strong>老牌会拒绝。</strong></p>
+
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="terminal-dot r"></div>
+        <div class="terminal-dot y"></div>
+        <div class="terminal-dot g"></div>
+        <span class="terminal-label">迁徙 + 拒绝 = 新垄断位</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="prompt-symbol">❯ </span><span class="prompt-text">回溯近 20 年的拒绝</span></div>
+        <div class="output">
+        支付宝被银联            →  "不够主流"            →  支付宝<br>
+        支付宝被海外银行        →  "太小"                →  支付宝 / 微信<br>
+        Ant International      →  "外汇管制 / 隔夜拆借"  →  蚂蚁 Whale<br>
+        &nbsp; 被 FX 网络<br>
+        de-banked 人群被商业银行 →  "风险评级太低"        →  Tether<br>
+        印度村民被银行          →  "单位经济不成立"      →  NPCI / UPI
+        </div>
+      </div>
+    </div>
+
+    <p>每一次拒绝,老牌都以为自己是在<strong>筛客户</strong>。事后看,他们是在<strong>把下一任垄断者推出门</strong>——逼对方自己建一整套和老牌平行的结算层。等这套建成,老牌反而被挤出那个市场。</p>
+
+    <!--
+      05 节骨架金句候选:
+        ① 你以为你选择了不服务,其实你只是在给未来的竞争对手颁发出生证。  ← 当前使用
+        ② 支付史的每一座墓碑上都刻着同一句话:"他们太小了,不接。"
+        ③ 拒绝是助产士。每一次说"我们不服务这类客户",都是在给下一个垄断位发出生证。
+        ④ 不是新玩家打败了老牌,是老牌把新玩家推出门外。
+    -->
+    <div class="quote-block">
+      <span class="quote-mark">"</span>
+      <p>你以为你选择了不服务,其实你只是在给未来的竞争对手颁发出生证。</p>
+    </div>
+
+    <p style="text-align:center; font-weight:700; color:var(--ink); margin-top:3rem;">这个模式最硬的一个证明:<br><strong>连支付宝自己都在用同一个配方。</strong></p>
+
+    <div class="info-card">
+      <div class="info-card-title">Whale · 连赢家也被推向了稳定币</div>
+      <p>蚂蚁国际(Ant International)在全球 <strong>100+ 地区</strong>做清算。走传统 FX 通道意味着——</p>
+      <p>· 巴西缺流动性 → 找本地银行拆借 → 付隔夜利息<br>
+      · 从美国打美元过去 → 撞外汇管制 → 资金流出繁琐<br>
+      · T+2 / 银行营业时间是行业常态,不是例外</p>
+      <p>旧的清算网络没有"拒绝"支付宝——它<strong>只是没能力服务</strong>支付宝那种"多币种、全天候、大规模"的清算形状。<strong>结果一样:</strong>支付宝自己搭了一个叫 <strong class="spell">Whale</strong> 的平台,发自己的稳定币,用来做银行间清算。</p>
+    </div>
+
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="terminal-dot r"></div>
+        <div class="terminal-dot y"></div>
+        <div class="terminal-dot g"></div>
+        <span class="terminal-label">Whale · 公开数据</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="prompt-symbol">❯ </span><span class="prompt-text">Ant International Whale platform</span></div>
+        <div class="output">
+        2024 · 蚂蚁全球 $1 万亿交易里,约 1/3 走 Whale<br>
+        2025 · Whale 处理资金流 $6000+ 亿<br>
+        结算速度 · 95%+ 当日,远超 SWIFT + 代理行的 T+2<br>
+        合作银行 · Standard Chartered / HSBC / Deutsche Bank<br>
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; JPMorgan Kinexys / DBS / BNP Paribas
+        </div>
+      </div>
+    </div>
+
+    <p>换个角度看:<strong>这不是一个"加密货币项目"。这是一家主流支付巨头,在被旧清算网络"无能为力"之后,自己发了一层和难民在用的东西结构上一模一样的清算层。</strong></p>
+
+    <div class="big-statement">
+      <p class="mono">稳定币不是创新,是被逼出来的</p>
+    </div>
+
+    <p>赢家和难民手里握的是同一把刀。</p>
+  </div>
+
+  <!-- ================ 06 ================ -->
+  <div class="section">
+    <div class="section-number">06</div>
+    <div class="section-title">UPI — 国家主导的被动迁徙</div>
+
+    <p>前面讲的都是"主动迁徙"——人自己要去更好的地方。但还有另一半,<strong>被动迁徙</strong>——人是<strong>被系统吐出来的</strong>。被动迁徙的垄断位,长得比主动迁徙更快、更狠、更不讲理。有两种推法:<strong>国家推</strong>和<strong>市场拒绝</strong>。这一节讲前者。</p>
+
+    <p>2014 年,印度启动 Jan Dhan-Aadhaar-Mobile 三位一体(JAM),给 14 亿人发生物识别身份。2016 年 11 月 8 日晚,莫迪宣布废钞——500 和 1000 卢比面值<strong>当夜作废</strong>。整个印度被强制推进数字支付。2016 年 4 月上线的 UPI,就是这套身份工程的结算接口。</p>
+
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="terminal-dot r"></div>
+        <div class="terminal-dot y"></div>
+        <div class="terminal-dot g"></div>
+        <span class="terminal-label">Aadhaar + UPI · 规模</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="prompt-symbol">❯ </span><span class="prompt-text">NPCI + UIDAI 官方数据</span></div>
+        <div class="output">
+        Aadhaar 累计发卡 · 13 亿+,成人覆盖率 99.9%<br>
+        UPI 2024 年交易量 · 1720 亿笔  (同比 +46%)<br>
+        2024 年 10 月单月 · 166 亿笔<br>
+        年交易金额 · ₹247 万亿  (~$3 万亿)
+        </div>
+      </div>
+    </div>
+
+    <p>这不是印度人"想用",是政府<strong>把他们从无记录状态,赶到有记录状态</strong>的一次强制迁徙。</p>
+
+    <p>注意一件事:<strong>垄断位没有长在任何一家银行或金融科技公司手里,长在 NPCI 这个准政府机构手里。</strong> 银行在 UPI 里是管道,不是中心。</p>
+
+    <div class="big-statement">
+      <p class="mono">被动迁徙如果是国家推的,垄断位就长在国家机构手里</p>
+    </div>
+  </div>
+
+  <!-- ================ 07 ================ -->
+  <div class="section">
+    <div class="section-number">07</div>
+    <div class="section-title">Tether — 自发的被动迁徙</div>
+
+    <p>如果说支付宝的 Whale 是"<strong>赢家也在用稳定币</strong>",那 Tether 就是"<strong>难民已经用了十年稳定币</strong>"。同一把刀,不同的手。</p>
+
+    <p>支付宝被清算网络"无能为力"地推向稳定币。几亿个被 de-banked 的人被<strong>明确拒绝</strong>之后,也被推向了同一个地方。</p>
+
+    <p style="text-align:center; font-weight:700; color:var(--ink); font-size:1.1rem;">具体落点:尼日利亚。</p>
+
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="terminal-dot r"></div>
+        <div class="terminal-dot y"></div>
+        <div class="terminal-dot g"></div>
+        <span class="terminal-label">奈拉的溃败</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="prompt-symbol">❯ </span><span class="prompt-text">Nigerian Naira / USD</span></div>
+        <div class="output">
+        十年贬值           · 约 70%<br>
+        2023-2025 两年    · ₦460/USD → ₦1500/USD,再贬 60%+<br>
+        官方 FX 与黑市汇率 · 长期劈叉,换汇常年配额紧张
+        </div>
+      </div>
+    </div>
+
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="terminal-dot r"></div>
+        <div class="terminal-dot y"></div>
+        <div class="terminal-dot g"></div>
+        <span class="terminal-label">民间的回应 · Chainalysis 2025</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="prompt-symbol">❯ </span><span class="prompt-text">Sub-Saharan Africa Crypto Adoption Report</span></div>
+        <div class="output">
+        尼日利亚 2024.7 - 2025.6 链上交易量 · $92.1 B<br>
+        &nbsp; &nbsp; (撒哈拉以南非洲第一,约南非 3 倍)<br>
+        稳定币占撒哈拉以南非洲链上交易量   · 43%<br>
+        尼日利亚稳定币用户中 · 62% 做日常购买<br>
+        <span style="color:#e8a838;">95% 尼日利亚受访者 · 更愿意收稳定币,不愿意收奈拉</span><br>
+        对比参照     · 美国零售 ~23%,英国 ~18%
+        </div>
+      </div>
+    </div>
+
+    <p>线下图景:Telegram 和 WhatsApp 群成了最常见的 P2P 兑换枢纽,本地 agent 拎着现金上门、面对面换 USDT,便利店直接挂钱包地址收款,伦敦的尼日利亚人给 Lagos 家里汇钱、不走银行走 USDT。</p>
+
+    <!--
+      07 节核心句候选:
+        ① 尼日利亚 95% 的人愿意收稳定币、不愿意收本币。他们不是"加密爱好者",是拿奈拉的手烫到了。
+        ② 被动迁徙的终点不是另一种银行,是另一种货币。
+        ③ 当一个国家 95% 的人更信陌生美国公司发的 token,不信本国央行印的钞票——这已经不是货币问题,是主权问题。  ← 当前使用
+        ④ 稳定币不是"加密货币的一种",是被动迁徙人口的银联。
+    -->
+    <div class="quote-block">
+      <span class="quote-mark">"</span>
+      <p>当一个国家 95% 的人更信陌生美国公司发的 token,不信本国央行印的钞票——这已经不是货币问题,是主权问题。</p>
+    </div>
+
+    <p>被 de-banked 的、被制裁的、被通胀逼出来的、被本地牌照排斥的——尼日利亚、委内瑞拉、俄罗斯、菲律宾、土耳其、阿根廷——<strong>不同的触发原因,同一个落脚点</strong>。</p>
+
+    <p>所以"Web3 wallet 是下一代支付"是一个被问错的问题。<strong>Tether 已经是事实垄断者,wallet 不过是分销。</strong></p>
+
+    <div class="big-statement">
+      <p class="mono">稳定币是被动迁徙人口的银联</p>
+    </div>
+  </div>
+
+  <!-- ================ 08 ================ -->
+  <div class="section">
+    <div class="section-number">08</div>
+    <div class="section-title">时间窗口的铁律</div>
+
+    <p>把前面七节的迁徙排一下,画面就清楚了:</p>
+
+    <div class="evolution">
+      <div class="evo-item">
+        <div class="era">1950s — 70s</div>
+        <div class="evo-title">战后郊区化</div>
+        <div class="evo-desc">Visa 长出来</div>
+      </div>
+      <div class="evo-item">
+        <div class="era">2000s — 10s</div>
+        <div class="evo-title">民工潮</div>
+        <div class="evo-desc">银联长出来</div>
+      </div>
+      <div class="evo-item">
+        <div class="era">2010s — 20s</div>
+        <div class="evo-title">屏幕迁徙</div>
+        <div class="evo-desc">支付宝 / 微信长出来</div>
+      </div>
+      <div class="evo-item">
+        <div class="era">2014 — NOW</div>
+        <div class="evo-title">印度数字身份工程</div>
+        <div class="evo-desc">NPCI / UPI 长出来</div>
+      </div>
+      <div class="evo-item">
+        <div class="era">2010s — NOW</div>
+        <div class="evo-title">跨境清算形状变了</div>
+        <div class="evo-desc">Whale 长出来</div>
+      </div>
+      <div class="evo-item">
+        <div class="era">2013 — NOW</div>
+        <div class="evo-title">被动流亡 / 通胀 / 制裁</div>
+        <div class="evo-desc">Tether 长出来</div>
+      </div>
+      <div class="evo-item">
+        <div class="era">20?? —</div>
+        <div class="evo-title">下一场迁徙</div>
+        <div class="evo-desc">?</div>
+      </div>
+    </div>
+
+    <p>每一场迁徙的时间窗口都只有 <strong>5~10 年</strong>。窗口开着的时候,第一个填上去的人拿走垄断位;窗口关了,再好的产品、再好的费率、再好的体验,都是在给既有垄断者抬轿子。</p>
+
+    <p>所以判断一家支付公司的天花板,<strong>不看它的产品路线图,看它背后的迁徙</strong>:还在不在,有多少人还在走,窗口还开多久。</p>
+
+    <!--
+      08 节核心句 · Jeff 原话,强烈建议保留
+    -->
+    <div class="big-statement">
+      <p class="mono">支付想占有一席之地,就得在迁徙的时候<br>否则时间窗口就会关闭</p>
+    </div>
+  </div>
+
+</main>
+
+<section class="ending">
+  <div class="ending-text">
+    支付的历史不是<span class="em">发明史</span>,是<span class="gold">迁徙史</span>。
+    <br><br>
+    结算层从来不是被设计出来的,是<span class="em">被人走出来的</span>。
+    <br><br>
+    所以这门生意的机会从来都不在产品里。它在地图上——<span class="gold">在哪里有一大群人正在走</span>。
+  </div>
+</section>
+
+<footer class="footer">
+  <p>支付的隐藏铁律 · 人口迁徙,才是真正的动力 | 2026</p>
+</footer>
+
+</body>
+</html>
