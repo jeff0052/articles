@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0a0a0a">
-<title>Jeff's Articles | 深度思考集</title>
-<meta name="description" content="深度思考 · 技术洞察 · 商业观察 · 人文随想">
+<title>Jeff · 碳基 GPT | 一个混动模型的思考输出</title>
+<meta name="description" content="把我当成一个模型来提问。我是一个碳基智能——一台混动的模型，输出判断与审美。往期内容是过去的推理结果。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -14,9 +14,9 @@
 
 :root {
   --bg: #0a0a0a;
-  --bg-soft: #121212;
   --surface: #141414;
-  --surface-hover: #1a1a1a;
+  --surface-2: #181818;
+  --surface-hover: #1c1c1c;
   --border: #242424;
   --border-strong: #333;
   --text: #f2f0ec;
@@ -30,7 +30,6 @@
 }
 
 html { scroll-behavior: smooth; }
-
 body {
   font-family: var(--sans);
   background: var(--bg);
@@ -39,8 +38,6 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
-
-/* ambient background */
 body::before {
   content: '';
   position: fixed;
@@ -61,265 +58,345 @@ body::after {
   background-size: 64px 64px;
   pointer-events: none;
   z-index: 0;
-  mask-image: radial-gradient(ellipse at 50% 30%, black, transparent 80%);
+  mask-image: radial-gradient(ellipse at 50% 20%, black, transparent 80%);
 }
 
-.wrap {
+.app {
   position: relative;
   z-index: 1;
-  max-width: 880px;
+  max-width: 760px;
   margin: 0 auto;
-  padding: 0 28px;
+  padding: 0 20px 160px;
 }
 
-/* header */
-.hero {
-  padding: 110px 0 70px;
+/* ===== model header ===== */
+.model-bar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 4px;
+  margin-bottom: 8px;
+  background: rgba(10,10,10,0.78);
+  backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border);
 }
-.hero .kicker {
+.avatar {
+  flex-shrink: 0;
+  width: 44px; height: 44px;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #1a1304;
+  background: linear-gradient(145deg, #F2B756, var(--accent));
+  box-shadow: 0 0 24px rgba(232,163,61,0.3);
+}
+.model-id .name {
+  font-weight: 600;
+  font-size: 1.02rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.model-id .name .badge {
   font-family: var(--mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.18em;
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--accent);
+  border: 1px solid rgba(232,163,61,0.3);
+  border-radius: 5px;
+  padding: 1px 6px;
+}
+.model-id .status {
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  color: var(--text-3);
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 26px;
+  gap: 7px;
+  margin-top: 2px;
 }
-.hero .kicker::before {
-  content: '';
-  width: 28px;
-  height: 1px;
-  background: var(--accent);
+.model-id .status .dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 8px #4ade80;
 }
-.hero h1 {
-  font-family: var(--serif);
-  font-weight: 900;
-  font-size: clamp(2.6rem, 7vw, 4.4rem);
-  line-height: 1.05;
-  letter-spacing: -0.01em;
-  margin-bottom: 24px;
-}
-.hero h1 .glow {
-  color: var(--accent);
-  text-shadow: 0 0 36px rgba(232, 163, 61, 0.35);
-}
-.hero p {
-  max-width: 520px;
-  font-size: 1.05rem;
-  color: var(--text-2);
-  font-weight: 300;
-}
-.hero .meta {
-  margin-top: 32px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 22px;
-  font-family: var(--mono);
-  font-size: 0.8rem;
-  color: var(--text-3);
-}
-.hero .meta span { display: flex; align-items: center; gap: 7px; }
-.hero .meta .d { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.model-id .status a { color: var(--text-3); text-decoration: none; border-bottom: 1px dotted var(--border-strong); }
+.model-id .status a:hover { color: var(--accent); }
 
-/* list */
-.list { padding: 24px 0 80px; }
+/* ===== chat stream ===== */
+.stream { padding-top: 18px; }
 
-.entry {
+.msg {
   display: grid;
-  grid-template-columns: 56px 1fr;
-  gap: 22px;
-  padding: 38px 28px 38px 22px;
-  margin: 0 -28px;
-  border-radius: 16px;
-  border: 1px solid transparent;
-  transition: background 0.35s ease, border-color 0.35s ease, transform 0.35s ease;
-  text-decoration: none;
-  color: inherit;
-}
-.entry + .entry { border-top: 1px solid var(--border); }
-.entry:hover {
-  background: var(--surface);
-  border-color: var(--border-strong);
-  border-top-color: var(--border-strong);
-  transform: translateY(-2px);
-}
-.entry .num {
-  font-family: var(--mono);
-  font-size: 0.95rem;
-  color: var(--text-3);
-  padding-top: 6px;
-  transition: color 0.35s ease;
-}
-.entry:hover .num { color: var(--accent); }
-
-.entry .head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  grid-template-columns: 40px 1fr;
   gap: 14px;
-  margin-bottom: 14px;
+  margin-bottom: 22px;
 }
-.entry .tag {
-  display: inline-block;
+.msg .mini {
+  width: 40px; height: 40px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  font-family: var(--serif);
+  font-weight: 700;
+  color: #1a1304;
+  background: linear-gradient(145deg, #F2B756, var(--accent));
+}
+.bubble {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px 16px 16px 16px;
+  padding: 22px 24px;
+}
+.bubble .who {
   font-family: var(--mono);
   font-size: 0.7rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--accent);
-  background: var(--accent-soft);
-  border: 1px solid rgba(232,163,61,0.25);
-  padding: 3px 10px;
-  border-radius: 100px;
+  margin-bottom: 12px;
 }
-.entry .date {
+.bubble p { color: var(--text-2); font-weight: 300; margin-bottom: 14px; }
+.bubble p:last-child { margin-bottom: 0; }
+.bubble strong { color: var(--text); font-weight: 600; }
+.bubble .sign { font-family: var(--mono); color: var(--text-3); font-size: 0.85rem; margin-top: 4px; }
+
+/* section divider */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 40px 0 26px;
+  padding-left: 4px;
+}
+.divider .label {
   font-family: var(--mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.04em;
+  font-size: 0.76rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
   color: var(--text-3);
   white-space: nowrap;
 }
-.entry h2 {
+.divider .label b { color: var(--accent); font-weight: 500; }
+.divider .line { flex: 1; height: 1px; background: var(--border); }
+
+/* article = past inference output */
+.out {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px 16px 16px 16px;
+  padding: 22px 24px;
+  margin-bottom: 16px;
+  margin-left: 54px;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+.out:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-strong);
+  transform: translateY(-2px);
+}
+.out .head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.out .tag {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid rgba(232,163,61,0.25);
+  padding: 3px 9px;
+  border-radius: 100px;
+}
+.out .date { font-family: var(--mono); font-size: 0.76rem; color: var(--text-3); white-space: nowrap; }
+.out h2 {
   font-family: var(--serif);
   font-weight: 700;
-  font-size: clamp(1.35rem, 3vw, 1.7rem);
-  line-height: 1.4;
-  margin-bottom: 12px;
+  font-size: clamp(1.2rem, 2.6vw, 1.5rem);
+  line-height: 1.45;
+  margin-bottom: 10px;
   transition: color 0.3s ease;
 }
-.entry:hover h2 { color: var(--accent); }
-.entry p {
-  color: var(--text-2);
-  font-weight: 300;
-  font-size: 0.97rem;
-  line-height: 1.75;
-  max-width: 64ch;
-}
-.entry .more {
+.out:hover h2 { color: var(--accent); }
+.out p { color: var(--text-2); font-weight: 300; font-size: 0.94rem; line-height: 1.7; }
+.out .more {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 18px;
-  font-family: var(--mono);
-  font-size: 0.82rem;
-  color: var(--text-3);
-  transition: color 0.3s ease, gap 0.3s ease;
-}
-.entry:hover .more { color: var(--accent); gap: 14px; }
-
-/* footer */
-.foot {
-  border-top: 1px solid var(--border);
-  padding: 44px 0 70px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16px;
+  gap: 7px;
+  margin-top: 14px;
   font-family: var(--mono);
   font-size: 0.8rem;
   color: var(--text-3);
+  transition: color 0.3s ease, gap 0.3s ease;
 }
-.foot .sig { color: var(--text-2); }
-.foot .sig b { color: var(--accent); font-weight: 500; }
+.out:hover .more { color: var(--accent); gap: 12px; }
+
+/* ===== sticky composer ===== */
+.composer {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 6;
+  padding: 16px 20px 22px;
+  background: linear-gradient(transparent, var(--bg) 28%);
+}
+.composer-inner {
+  max-width: 760px;
+  margin: 0 auto;
+}
+.box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
+  border-radius: 16px;
+  padding: 10px 12px 10px 20px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+}
+.box .ph {
+  flex: 1;
+  color: var(--text-3);
+  font-size: 0.96rem;
+  user-select: none;
+}
+.box .actions { display: flex; gap: 8px; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  font-size: 0.86rem;
+  font-weight: 500;
+  padding: 9px 15px;
+  border-radius: 11px;
+  white-space: nowrap;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+.btn.ghost {
+  color: var(--text-2);
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+}
+.btn.ghost:hover { color: var(--text); border-color: var(--text-3); transform: translateY(-1px); }
+.btn.solid {
+  color: #1a1304;
+  background: linear-gradient(145deg, #F2B756, var(--accent));
+}
+.btn.solid:hover { transform: translateY(-1px); box-shadow: 0 4px 18px rgba(232,163,61,0.35); }
+.composer .hint {
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text-3);
+  margin-top: 10px;
+}
 
 @media (max-width: 600px) {
-  .hero { padding: 80px 0 50px; }
-  .entry { grid-template-columns: 1fr; gap: 4px; }
-  .entry .num { padding-top: 0; }
+  .out { margin-left: 0; }
+  .box { flex-wrap: wrap; padding: 14px 14px 12px; }
+  .box .ph { flex-basis: 100%; margin-bottom: 4px; }
+  .box .actions { width: 100%; }
+  .btn { flex: 1; justify-content: center; }
 }
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="app">
 
-  <header class="hero">
-    <div class="kicker">Thinking in the age of AI</div>
-    <h1>深度思考，<br>是这个时代最<span class="glow">稀缺</span>的能力。</h1>
-    <p>技术洞察、商业观察与人文随想。在机器越来越强的年代，记录那些只有人才能给出的判断。</p>
-    <div class="meta">
-      <span><i class="d"></i>技术洞察</span>
-      <span><i class="d"></i>商业观察</span>
-      <span><i class="d"></i>人文随想</span>
+  <header class="model-bar">
+    <div class="avatar">想</div>
+    <div class="model-id">
+      <div class="name">Jeff · 碳基 GPT <span class="badge">混动模型</span></div>
+      <div class="status"><span class="dot"></span>在线 · 能力即训练数据 <a href="https://jeff0052.github.io/portfolio/" target="_blank" rel="noopener">查看 →</a></div>
     </div>
   </header>
 
-  <main class="list">
+  <main class="stream">
 
-    <a class="entry" href="ai-aesthetic/ai-aesthetic.html">
-      <div class="num">01</div>
-      <div class="body">
-        <div class="head">
-          <span class="tag">AI · 审美</span>
-          <span class="date">2026.06.06</span>
-        </div>
-        <h2>AI 时代，审美才是最高级的生产力</h2>
-        <p>AI 时代，技能会通胀，审美会升值。真正稀缺的，不是比 AI 更会做事的人，而是能判断 AI 做出来的东西是否高级、是否真实、是否有未来的人。技能是工具，审美是方向。</p>
-        <span class="more">阅读全文 →</span>
+    <!-- 导语 = 模型开场消息 -->
+    <div class="msg">
+      <div class="mini">想</div>
+      <div class="bubble">
+        <div class="who">System · 导语</div>
+        <p>为什么做这么一个频道？因为我是一个碳基智能——一台跑了三十多年的"模型"。参数不算多，但训练数据足够真实：踩过的坑、做过的判断、慢慢长出来的审美。</p>
+        <p>我越来越确信：AI 时代真正的关键，不在于谁会得更多，而在于两件事——<strong>能不能问出那个关键的问题，以及能不能用足够高的审美标准，快速做出选择。</strong>前者决定你往哪走，后者决定你走得有多快。算力会过剩，信息会过剩，唯独"提问"和"审美"还稀缺。</p>
+        <p>所以我干脆把自己当成一个模型来用：输入问题，输出观点。你也可以把我当成一个模型来提问——<strong>问题问得越好，我输出的也越好。</strong>算是一个碳基版的 GPT。</p>
+        <p>只不过，我这台是<strong>混动</strong>的：一半靠数据和逻辑，一半靠直觉和体感。硅基负责快，碳基负责对。下面是我过去的一些推理结果。</p>
+        <p class="sign">—— Jeff</p>
       </div>
+    </div>
+
+    <div class="divider">
+      <span class="label">过往推理 · <b>Past Inferences</b></span>
+      <span class="line"></span>
+    </div>
+
+    <a class="out" href="ai-aesthetic/ai-aesthetic.html">
+      <div class="head"><span class="tag">AI · 审美</span><span class="date">2026.06.06</span></div>
+      <h2>AI 时代，审美才是最高级的生产力</h2>
+      <p>AI 时代，技能会通胀，审美会升值。真正稀缺的，不是比 AI 更会做事的人，而是能判断 AI 做出来的东西是否高级、是否真实、是否有未来的人。技能是工具，审美是方向。</p>
+      <span class="more">阅读全文 →</span>
     </a>
 
-    <a class="entry" href="life-smoothness/life-smoothness.html">
-      <div class="num">02</div>
-      <div class="body">
-        <div class="head">
-          <span class="tag">人文 · 随想</span>
-          <span class="date">2026.05.10</span>
-        </div>
-        <h2>如何提高人生丝滑度</h2>
-        <p>从机场安检的一次小烦躁说起——人生的"丝滑度"到底由什么决定？当遇到摩擦时，第一反应是"为什么是我"，还是能换个角度看待？一篇关于心态与处世的随想。</p>
-        <span class="more">阅读全文 →</span>
-      </div>
+    <a class="out" href="life-smoothness/life-smoothness.html">
+      <div class="head"><span class="tag">人文 · 随想</span><span class="date">2026.05.10</span></div>
+      <h2>如何提高人生丝滑度</h2>
+      <p>从机场安检的一次小烦躁说起——人生的"丝滑度"到底由什么决定？当遇到摩擦时，第一反应是"为什么是我"，还是能换个角度看待？一篇关于心态与处世的随想。</p>
+      <span class="more">阅读全文 →</span>
     </a>
 
-    <a class="entry" href="yan-chu-fa-sui/yan-chu-fa-sui.html">
-      <div class="num">03</div>
-      <div class="body">
-        <div class="head">
-          <span class="tag">AI · 开发</span>
-          <span class="date">2026.04.23</span>
-        </div>
-        <h2>言出法随的咒语体系 — AI 时代的软件开发革命</h2>
-        <p>当"修仙爽文"照进现实——AI 时代，程序员不再是敲代码的苦力，而是"施咒人"。从"Talk is cheap, show me the code"到"Code is cheap, show me the prompt"，软件开发范式的一次坍缩。</p>
-        <span class="more">阅读全文 →</span>
-      </div>
+    <a class="out" href="yan-chu-fa-sui/yan-chu-fa-sui.html">
+      <div class="head"><span class="tag">AI · 开发</span><span class="date">2026.04.23</span></div>
+      <h2>言出法随的咒语体系 — AI 时代的软件开发革命</h2>
+      <p>当"修仙爽文"照进现实——AI 时代，程序员不再是敲代码的苦力，而是"施咒人"。从"Talk is cheap, show me the code"到"Code is cheap, show me the prompt"，软件开发范式的一次坍缩。</p>
+      <span class="more">阅读全文 →</span>
     </a>
 
-    <a class="entry" href="zhi-fu-qian-xi/zhi-fu-qian-xi.html">
-      <div class="num">04</div>
-      <div class="body">
-        <div class="head">
-          <span class="tag">支付 · 行业</span>
-          <span class="date">2026.04.23</span>
-        </div>
-        <h2>支付的隐藏铁律 — 人口迁徙，才是真正的动力</h2>
-        <p>为什么 Visa、银联、支付宝、Tether 都诞生于一场人口迁徙？为什么老牌支付网络每一次拒绝，都在给下一个垄断者发出生证？支付的时间窗口只在迁徙的时候开——窗口关了，再好的产品都是在抬轿子。</p>
-        <span class="more">阅读全文 →</span>
-      </div>
+    <a class="out" href="zhi-fu-qian-xi/zhi-fu-qian-xi.html">
+      <div class="head"><span class="tag">支付 · 行业</span><span class="date">2026.04.23</span></div>
+      <h2>支付的隐藏铁律 — 人口迁徙，才是真正的动力</h2>
+      <p>为什么 Visa、银联、支付宝、Tether 都诞生于一场人口迁徙？为什么老牌支付网络每一次拒绝，都在给下一个垄断者发出生证？支付的时间窗口只在迁徙的时候开——窗口关了，再好的产品都是在抬轿子。</p>
+      <span class="more">阅读全文 →</span>
     </a>
 
-    <a class="entry" href="saas-zhi-si/saas-zhi-si.html">
-      <div class="num">05</div>
-      <div class="body">
-        <div class="head">
-          <span class="tag">AI · 商业</span>
-          <span class="date">2026.03.30</span>
-        </div>
-        <h2>SAAS 之死 — AI 时代的第一个殉道者</h2>
-        <p>当 AI 在开发任务方面完成技术平权，每个企业都能以极低成本获得定制化系统时，分片割裂的 SAAS 还有存在必要吗？探讨 AI 法师如何重构传统商业模式，以及新时代企业的四人打怪团队架构。</p>
-        <span class="more">阅读全文 →</span>
-      </div>
+    <a class="out" href="saas-zhi-si/saas-zhi-si.html">
+      <div class="head"><span class="tag">AI · 商业</span><span class="date">2026.03.30</span></div>
+      <h2>SAAS 之死 — AI 时代的第一个殉道者</h2>
+      <p>当 AI 在开发任务方面完成技术平权，每个企业都能以极低成本获得定制化系统时，分片割裂的 SAAS 还有存在必要吗？探讨 AI 法师如何重构传统商业模式，以及新时代企业的四人打怪团队架构。</p>
+      <span class="more">阅读全文 →</span>
     </a>
 
   </main>
-
-  <footer class="foot">
-    <div class="sig">Written by <b>Jeff</b> · 深度思考集</div>
-    <div>© 2026</div>
-  </footer>
-
 </div>
+
+<div class="composer">
+  <div class="composer-inner">
+    <div class="box">
+      <span class="ph">把我当成一个模型，问个关键的问题…</span>
+      <div class="actions">
+        <a class="btn ghost" href="mailto:jeff0052@gmail.com?subject=向碳基GPT提问">📧 留言</a>
+        <a class="btn solid" href="https://x.com/Jeff_JZ0052" target="_blank" rel="noopener">💬 预约 1v1 对话</a>
+      </div>
+    </div>
+    <div class="hint">碳基模型 · 推理较慢，但尽量给真实回答</div>
+  </div>
+</div>
+
 </body>
 </html>
