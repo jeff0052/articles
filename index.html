@@ -1,181 +1,297 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jeff's Articles | 深度思考集</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #fafafa;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 3rem;
-            padding: 2rem 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 12px;
-        }
-        
-        .header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-        
-        .articles {
-            display: grid;
-            gap: 2rem;
-        }
-        
-        .article-card {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .article-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 30px rgba(0,0,0,0.15);
-        }
-        
-        .article-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #2d3748;
-        }
-        
-        .article-title a {
-            text-decoration: none;
-            color: inherit;
-        }
-        
-        .article-excerpt {
-            color: #666;
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
-        }
-        
-        .article-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.9rem;
-            color: #888;
-        }
-        
-        .article-tag {
-            background: #e2e8f0;
-            color: #4a5568;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }
-        
-        .read-more {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        
-        .read-more:hover {
-            text-decoration: underline;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0a0a">
+<title>Jeff's Articles | 深度思考集</title>
+<meta name="description" content="深度思考 · 技术洞察 · 商业观察 · 人文随想">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0a;
+  --bg-soft: #121212;
+  --surface: #141414;
+  --surface-hover: #1a1a1a;
+  --border: #242424;
+  --border-strong: #333;
+  --text: #f2f0ec;
+  --text-2: #b8b4ad;
+  --text-3: #6f6b64;
+  --accent: #E8A33D;
+  --accent-soft: rgba(232, 163, 61, 0.12);
+  --serif: 'Noto Serif SC', serif;
+  --sans: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ambient background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(232, 163, 61, 0.06), transparent 45%),
+    radial-gradient(circle at 85% 100%, rgba(80, 120, 200, 0.05), transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+  background-size: 64px 64px;
+  pointer-events: none;
+  z-index: 0;
+  mask-image: radial-gradient(ellipse at 50% 30%, black, transparent 80%);
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+/* header */
+.hero {
+  padding: 110px 0 70px;
+  border-bottom: 1px solid var(--border);
+}
+.hero .kicker {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 26px;
+}
+.hero .kicker::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--accent);
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: clamp(2.6rem, 7vw, 4.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  margin-bottom: 24px;
+}
+.hero h1 .glow {
+  color: var(--accent);
+  text-shadow: 0 0 36px rgba(232, 163, 61, 0.35);
+}
+.hero p {
+  max-width: 520px;
+  font-size: 1.05rem;
+  color: var(--text-2);
+  font-weight: 300;
+}
+.hero .meta {
+  margin-top: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--text-3);
+}
+.hero .meta span { display: flex; align-items: center; gap: 7px; }
+.hero .meta .d { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+/* list */
+.list { padding: 24px 0 80px; }
+
+.entry {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 22px;
+  padding: 38px 28px 38px 22px;
+  margin: 0 -28px;
+  border-radius: 16px;
+  border: 1px solid transparent;
+  transition: background 0.35s ease, border-color 0.35s ease, transform 0.35s ease;
+  text-decoration: none;
+  color: inherit;
+}
+.entry + .entry { border-top: 1px solid var(--border); }
+.entry:hover {
+  background: var(--surface);
+  border-color: var(--border-strong);
+  border-top-color: var(--border-strong);
+  transform: translateY(-2px);
+}
+.entry .num {
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  color: var(--text-3);
+  padding-top: 6px;
+  transition: color 0.35s ease;
+}
+.entry:hover .num { color: var(--accent); }
+
+.entry .tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid rgba(232,163,61,0.25);
+  padding: 3px 10px;
+  border-radius: 100px;
+  margin-bottom: 14px;
+}
+.entry h2 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(1.35rem, 3vw, 1.7rem);
+  line-height: 1.4;
+  margin-bottom: 12px;
+  transition: color 0.3s ease;
+}
+.entry:hover h2 { color: var(--accent); }
+.entry p {
+  color: var(--text-2);
+  font-weight: 300;
+  font-size: 0.97rem;
+  line-height: 1.75;
+  max-width: 64ch;
+}
+.entry .more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  color: var(--text-3);
+  transition: color 0.3s ease, gap 0.3s ease;
+}
+.entry:hover .more { color: var(--accent); gap: 14px; }
+
+/* footer */
+.foot {
+  border-top: 1px solid var(--border);
+  padding: 44px 0 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--text-3);
+}
+.foot .sig { color: var(--text-2); }
+.foot .sig b { color: var(--accent); font-weight: 500; }
+
+@media (max-width: 600px) {
+  .hero { padding: 80px 0 50px; }
+  .entry { grid-template-columns: 1fr; gap: 4px; }
+  .entry .num { padding-top: 0; }
+}
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Jeff's Articles</h1>
-            <p>深度思考 · 技术洞察 · 商业观察</p>
-        </div>
-        
-        <div class="articles">
-            <article class="article-card">
-                <h2 class="article-title">
-                    <a href="ai-aesthetic/ai-aesthetic.html">AI 时代，审美才是最高级的生产力</a>
-                </h2>
-                <p class="article-excerpt">
-                    AI 时代,技能会通胀,审美会升值。真正稀缺的,不是比 AI 更会做事的人,而是能判断 AI 做出来的东西是否高级、是否真实、是否有未来的人。技能是工具,审美是方向。
-                </p>
-                <div class="article-meta">
-                    <span class="article-tag">AI时代</span>
-                    <a href="ai-aesthetic/ai-aesthetic.html" class="read-more">阅读全文 →</a>
-                </div>
-            </article>
-            <article class="article-card">
-                <h2 class="article-title">
-                    <a href="life-smoothness/life-smoothness.html">如何提高人生丝滑度</a>
-                </h2>
-                <p class="article-excerpt">
-                    从机场安检的一次小烦躁说起——人生的"丝滑度"到底由什么决定?当遇到摩擦时,第一反应是"为什么是我",还是能换个角度看待?一篇关于心态与处世的随想。
-                </p>
-                <div class="article-meta">
-                    <span class="article-tag">人生随想</span>
-                    <a href="life-smoothness/life-smoothness.html" class="read-more">阅读全文 →</a>
-                </div>
-            </article>
-            <article class="article-card">
-                <h2 class="article-title">
-                    <a href="yan-chu-fa-sui/yan-chu-fa-sui.html">言出法随的咒语体系 - AI时代的软件开发革命</a>
-                </h2>
-                <p class="article-excerpt">
-                    当"修仙爽文"照进现实——AI 时代,程序员不再是敲代码的苦力,而是"施咒人"。从"Talk is cheap, show me the code"到"Code is cheap, show me the prompt",软件开发范式的一次坍缩。
-                </p>
-                <div class="article-meta">
-                    <span class="article-tag">AI时代</span>
-                    <a href="yan-chu-fa-sui/yan-chu-fa-sui.html" class="read-more">阅读全文 →</a>
-                </div>
-            </article>
-            <article class="article-card">
-                <h2 class="article-title">
-                    <a href="zhi-fu-qian-xi/zhi-fu-qian-xi.html">支付的隐藏铁律 - 人口迁徙,才是真正的动力</a>
-                </h2>
-                <p class="article-excerpt">
-                    为什么 Visa、银联、支付宝、Tether 都诞生于一场人口迁徙?为什么老牌支付网络每一次拒绝,都在给下一个垄断者发出生证?支付的时间窗口只在迁徙的时候开——窗口关了,再好的产品都是在抬轿子。业内人不说的支付行业隐藏铁律。
-                </p>
-                <div class="article-meta">
-                    <span class="article-tag">支付行业</span>
-                    <a href="zhi-fu-qian-xi/zhi-fu-qian-xi.html" class="read-more">阅读全文 →</a>
-                </div>
-            </article>
-            <article class="article-card">
-                <h2 class="article-title">
-                    <a href="saas-zhi-si/saas-zhi-si.html">SAAS之死 - AI时代的第一个殉道者</a>
-                </h2>
-                <p class="article-excerpt">
-                    当AI在开发任务方面完成技术平权，每个企业都能以极低成本获得定制化系统时，分片割裂的SAAS还有存在必要吗？探讨AI法师如何重构传统商业模式，以及新时代企业的四人打怪团队架构。
-                </p>
-                <div class="article-meta">
-                    <span class="article-tag">AI时代</span>
-                    <a href="saas-zhi-si/saas-zhi-si.html" class="read-more">阅读全文 →</a>
-                </div>
-            </article>
-        </div>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="kicker">Thinking in the age of AI</div>
+    <h1>深度思考，<br>是这个时代最<span class="glow">稀缺</span>的能力。</h1>
+    <p>技术洞察、商业观察与人文随想。在机器越来越强的年代，记录那些只有人才能给出的判断。</p>
+    <div class="meta">
+      <span><i class="d"></i>技术洞察</span>
+      <span><i class="d"></i>商业观察</span>
+      <span><i class="d"></i>人文随想</span>
     </div>
+  </header>
+
+  <main class="list">
+
+    <a class="entry" href="ai-aesthetic/ai-aesthetic.html">
+      <div class="num">01</div>
+      <div class="body">
+        <span class="tag">AI · 审美</span>
+        <h2>AI 时代，审美才是最高级的生产力</h2>
+        <p>AI 时代，技能会通胀，审美会升值。真正稀缺的，不是比 AI 更会做事的人，而是能判断 AI 做出来的东西是否高级、是否真实、是否有未来的人。技能是工具，审美是方向。</p>
+        <span class="more">阅读全文 →</span>
+      </div>
+    </a>
+
+    <a class="entry" href="yan-chu-fa-sui/yan-chu-fa-sui.html">
+      <div class="num">02</div>
+      <div class="body">
+        <span class="tag">AI · 开发</span>
+        <h2>言出法随的咒语体系 — AI 时代的软件开发革命</h2>
+        <p>当"修仙爽文"照进现实——AI 时代，程序员不再是敲代码的苦力，而是"施咒人"。从"Talk is cheap, show me the code"到"Code is cheap, show me the prompt"，软件开发范式的一次坍缩。</p>
+        <span class="more">阅读全文 →</span>
+      </div>
+    </a>
+
+    <a class="entry" href="zhi-fu-qian-xi/zhi-fu-qian-xi.html">
+      <div class="num">03</div>
+      <div class="body">
+        <span class="tag">支付 · 行业</span>
+        <h2>支付的隐藏铁律 — 人口迁徙，才是真正的动力</h2>
+        <p>为什么 Visa、银联、支付宝、Tether 都诞生于一场人口迁徙？为什么老牌支付网络每一次拒绝，都在给下一个垄断者发出生证？支付的时间窗口只在迁徙的时候开——窗口关了，再好的产品都是在抬轿子。</p>
+        <span class="more">阅读全文 →</span>
+      </div>
+    </a>
+
+    <a class="entry" href="saas-zhi-si/saas-zhi-si.html">
+      <div class="num">04</div>
+      <div class="body">
+        <span class="tag">AI · 商业</span>
+        <h2>SAAS 之死 — AI 时代的第一个殉道者</h2>
+        <p>当 AI 在开发任务方面完成技术平权，每个企业都能以极低成本获得定制化系统时，分片割裂的 SAAS 还有存在必要吗？探讨 AI 法师如何重构传统商业模式，以及新时代企业的四人打怪团队架构。</p>
+        <span class="more">阅读全文 →</span>
+      </div>
+    </a>
+
+    <a class="entry" href="life-smoothness/life-smoothness.html">
+      <div class="num">05</div>
+      <div class="body">
+        <span class="tag">人文 · 随想</span>
+        <h2>如何提高人生丝滑度</h2>
+        <p>从机场安检的一次小烦躁说起——人生的"丝滑度"到底由什么决定？当遇到摩擦时，第一反应是"为什么是我"，还是能换个角度看待？一篇关于心态与处世的随想。</p>
+        <span class="more">阅读全文 →</span>
+      </div>
+    </a>
+
+  </main>
+
+  <footer class="foot">
+    <div class="sig">Written by <b>Jeff</b> · 深度思考集</div>
+    <div>© 2026</div>
+  </footer>
+
+</div>
 </body>
 </html>
