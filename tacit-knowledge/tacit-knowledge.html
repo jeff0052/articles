@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a1a1a">
+<title>我们知道的，远比能说出来的多</title>
+<meta name="description" content="从一次和做期权朋友的聊天说起——第六感、50/50 的抉择，和那个我一直想说清楚的词：抽象。它们其实是同一种能力的三个切面。">
+<meta property="og:title" content="我们知道的，远比能说出来的多">
+<meta property="og:description" content="第六感是无意识的压缩，50/50 是压缩失效的边界，抽象是有意识的压缩。它们都是用代价喂养的默会能力。">
+<meta property="og:type" content="article">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --body: #333333;
+    --paper: #fafaf7;
+    --accent: #c1272d;
+    --accent2: #1d3557;
+    --dim: #666666;
+    --code-bg: #1a1a2e;
+    --code-green: #00ff88;
+    --card-bg: #f0ede6;
+    --border: #d8d4cc;
+    --gold: #b8860b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background: var(--paper);
+    color: var(--body);
+    overflow-x: hidden;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 2rem;
+    background: var(--ink);
+    color: #ffffff;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridShift 20s linear infinite;
+  }
+
+  .hero-particles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--gold);
+    opacity: 0;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .particle:nth-child(1) { left: 15%; top: 30%; animation-delay: 0s; }
+  .particle:nth-child(2) { left: 75%; top: 20%; animation-delay: 1s; }
+  .particle:nth-child(3) { left: 45%; top: 70%; animation-delay: 2s; }
+  .particle:nth-child(4) { left: 85%; top: 55%; animation-delay: 3s; }
+  .particle:nth-child(5) { left: 25%; top: 80%; animation-delay: 4s; }
+  .particle:nth-child(6) { left: 60%; top: 40%; animation-delay: 0.5s; }
+  .particle:nth-child(7) { left: 35%; top: 15%; animation-delay: 2.5s; }
+  .particle:nth-child(8) { left: 90%; top: 75%; animation-delay: 1.5s; }
+
+  @keyframes float {
+    0%, 100% { opacity: 0; transform: translateY(0) scale(1); }
+    20% { opacity: 0.8; }
+    50% { opacity: 0.4; transform: translateY(-40px) scale(1.5); }
+    80% { opacity: 0.6; }
+  }
+
+  @keyframes gridShift {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(60px, 60px); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 900px;
+  }
+
+  .hero-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #e8a838;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.3s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: clamp(2.2rem, 6vw, 4.2rem);
+    line-height: 1.35;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+    opacity: 0;
+    animation: fadeUp 1s 0.5s forwards;
+  }
+
+  .hero-title .highlight {
+    background: linear-gradient(135deg, #e8a838, #ff6b6b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-subtitle {
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    font-weight: 400;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.8;
+    max-width: 650px;
+    margin: 0 auto 3rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.7s forwards;
+  }
+
+  .hero-divider {
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
+    margin: 0 auto;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.9s forwards;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.2em;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .scroll-hint::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 30px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+    margin: 0.5rem auto 0;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.7; }
+  }
+
+  /* ===== MAIN ===== */
+  .article {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 4rem 2rem 6rem;
+  }
+
+  .section {
+    margin-bottom: 5rem;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .section-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.3em;
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    line-height: 1.4;
+    margin-bottom: 2rem;
+    color: var(--ink);
+  }
+
+  .section-title::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 3px;
+    background: var(--accent);
+    margin-top: 1rem;
+  }
+
+  p {
+    font-size: 1.05rem;
+    line-height: 2;
+    color: var(--body);
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+  }
+
+  strong, b {
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  em {
+    font-style: normal;
+    background: linear-gradient(transparent 60%, rgba(184,134,11,0.25) 60%);
+    padding: 0 2px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* ===== QUOTE ===== */
+  .quote-block {
+    position: relative;
+    margin: 3rem 0;
+    padding: 2.5rem 2rem 2.5rem 3rem;
+    background: var(--card-bg);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+  }
+
+  .quote-block p {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0;
+    line-height: 1.9;
+  }
+
+  .quote-block .src {
+    display: block;
+    margin-top: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: var(--dim);
+    letter-spacing: 0.05em;
+  }
+
+  .quote-block .quote-mark {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.8rem;
+    font-size: 3rem;
+    color: var(--accent);
+    opacity: 0.3;
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+
+  /* ===== TERMINAL ===== */
+  .terminal {
+    background: var(--code-bg);
+    border-radius: 12px;
+    margin: 2.5rem 0;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+  }
+
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .terminal-dot.r { background: #ff5f56; }
+  .terminal-dot.y { background: #ffbd2e; }
+  .terminal-dot.g { background: #27c93f; }
+
+  .terminal-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.4);
+    margin-left: auto;
+  }
+
+  .terminal-body {
+    padding: 1.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    line-height: 1.8;
+    color: #ffffff;
+  }
+
+  .terminal-body .prompt-symbol { color: var(--code-green); }
+  .terminal-body .prompt-text { color: rgba(255,255,255,0.9); }
+
+  .terminal-body .output {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .terminal-body .pick {
+    color: #e8a838;
+    font-size: 0.78rem;
+    margin-top: 0.5rem;
+  }
+
+  .typing-cursor {
+    display: inline-block;
+    width: 8px;
+    height: 16px;
+    background: var(--code-green);
+    margin-left: 4px;
+    animation: blink 1s step-end infinite;
+    vertical-align: text-bottom;
+  }
+
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ===== BIG STATEMENT ===== */
+  .big-statement {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    margin: 3rem 0;
+    background: var(--ink);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .big-statement::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(232,168,56,0.08), transparent 70%);
+  }
+
+  .big-statement .mono {
+    position: relative;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(1.1rem, 3vw, 1.8rem);
+    color: var(--code-green);
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 30px rgba(0,255,136,0.3);
+  }
+
+  .big-statement .serif {
+    position: relative;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 700;
+    font-size: clamp(1.3rem, 3.5vw, 2rem);
+    line-height: 1.6;
+    color: #ffffff;
+  }
+
+  .big-statement .serif .gold { color: #e8a838; }
+
+  /* ===== INFO CARD ===== */
+  .info-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin: 2.5rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .info-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--gold), var(--accent2));
+  }
+
+  .info-card-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--ink);
+  }
+
+  .info-card p { color: var(--body); }
+
+  .info-card .move {
+    margin-bottom: 1.4rem;
+  }
+  .info-card .move:last-child { margin-bottom: 0; }
+  .info-card .move .n {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+  .info-card .move .t {
+    font-size: 0.97rem;
+    line-height: 1.85;
+    color: var(--body);
+    margin: 0;
+  }
+  .info-card .move .t b { color: var(--ink); }
+
+  /* ===== TRIAD (3 cards) ===== */
+  .triad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 2.5rem 0 1.2rem;
+  }
+
+  .triad-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.8rem 1.4rem;
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .triad-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+  }
+
+  .triad-card .ic {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(193,39,45,0.12), rgba(184,134,11,0.18));
+    color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.1rem; font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .triad-card .h {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+  }
+
+  .triad-card .d {
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: var(--dim);
+  }
+
+  .triad-skeleton {
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--ink);
+    background: rgba(184,134,11,0.1);
+    border: 1px dashed var(--gold);
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    margin: 0 0 2.5rem;
+    letter-spacing: 0.02em;
+  }
+  .triad-skeleton b { color: var(--accent); }
+
+  /* ===== DYAD (two faces) ===== */
+  .dyad {
+    margin: 3rem 0;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .dyad-head {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .dyad-head .hcell {
+    padding: 0.9rem 1.4rem;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .dyad-head .hcell.flat { color: var(--dim); background: rgba(0,0,0,0.03); }
+  .dyad-head .hcell.torn { color: #fff; background: var(--accent); }
+
+  .dyad-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .dyad-row:not(:last-child) { border-bottom: 1px solid var(--border); }
+
+  .dyad-cell {
+    padding: 1.1rem 1.4rem;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+
+  .dyad-cell.flat {
+    color: var(--dim);
+    background: rgba(0,0,0,0.02);
+  }
+
+  .dyad-cell.torn {
+    color: var(--ink);
+    font-weight: 500;
+    background: linear-gradient(135deg, rgba(193,39,45,0.06), rgba(184,134,11,0.08));
+    border-left: 2px solid var(--accent);
+  }
+
+  /* ===== PYRAMID ===== */
+  .pyramid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin: 2.5rem 0;
+  }
+
+  .pyramid-level {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 0.85rem 1rem;
+    border-radius: 6px;
+    transition: transform 0.3s;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+
+  .pyramid-level:hover { transform: scale(1.03); }
+
+  .pyramid-level.l1 {
+    width: 52%;
+    background: linear-gradient(135deg, var(--accent), #a01f24);
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .pyramid-level.l2 {
+    width: 64%;
+    background: rgba(193,39,45,0.12);
+    border: 1px solid rgba(193,39,45,0.25);
+  }
+
+  .pyramid-level.l3 {
+    width: 76%;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+  }
+
+  .pyramid-level.l4 {
+    width: 88%;
+    background: rgba(0,0,0,0.03);
+    border: 1px solid var(--border);
+    color: var(--dim);
+  }
+
+  /* ===== ENDING ===== */
+  .ending {
+    text-align: center;
+    padding: 6rem 2rem;
+    background: var(--ink);
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ending::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(232,168,56,0.06), transparent);
+    pointer-events: none;
+  }
+
+  .ending-text {
+    position: relative;
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    line-height: 2.2;
+    color: rgba(255,255,255,0.85);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .ending-text .em {
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .ending-text .gold {
+    color: #e8a838;
+    font-weight: 700;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    border-top: 1px solid var(--border);
+    background: var(--paper);
+  }
+
+  .footer p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+  }
+
+  .footer a { color: var(--accent); text-decoration: none; }
+
+  /* ===== SPELL / ACCENT ===== */
+  .spell {
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  /* ===== PRINT (PDF) — force animated sections visible & keep dark fills ===== */
+  @media print {
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    .section { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .hero { min-height: auto; padding: 4rem 2rem; }
+    .scroll-hint { display: none; }
+    .hero-tag, .hero-title, .hero-subtitle, .hero-divider { opacity: 1 !important; animation: none !important; }
+    .big-statement, .terminal, .ending, .info-card, .triad-card, .dyad, .quote-block, .pyramid { break-inside: avoid; }
+  }
+
+  @media (max-width: 700px) {
+    .triad { grid-template-columns: 1fr; }
+    .dyad-head, .dyad-row { grid-template-columns: 1fr; }
+    .dyad-cell.torn { border-left: none; border-top: 2px solid var(--accent); }
+    .dyad-head .hcell.torn { border-top: none; }
+    .pyramid-level.l1 { width: 70%; }
+    .pyramid-level.l2 { width: 80%; }
+    .pyramid-level.l3 { width: 90%; }
+    .pyramid-level.l4 { width: 98%; }
+    .article { padding: 3rem 1.2rem 4rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-particles">
+    <div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+  </div>
+  <div class="hero-content">
+    <p class="hero-tag">观点 · 认知 · 交易</p>
+    <h1 class="hero-title">我们知道的，<br>远比<span class="highlight">能说出来的</span>多</h1>
+    <p class="hero-subtitle">从一次和做期权朋友的聊天说起——第六感、50/50 的抉择，和那个我一直想说清楚的词：抽象。聊到最后才发现，它们是同一种能力的三个切面。</p>
+    <div class="hero-divider"></div>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</section>
+
+<!-- ARTICLE -->
+<main class="article">
+
+  <!-- 01 -->
+  <div class="section">
+    <div class="section-number">01</div>
+    <div class="section-title">一次聊天</div>
+
+    <p>那天和一个做期权的朋友聊天。我做交易的经验来自 BTC 和德州，都是博弈。聊着聊着，我们有了一个很深的共识：很多交易策略，书上写得再清楚都没用，必须自己下场、真金白银亏过，才算长在身上。第六感很重要——<strong>感觉不对的时候，往往就是不对。</strong></p>
+
+    <p>更玄的是，很多东西我们现有的语言根本描述不了。你知道那是对的，但你说不出为什么。它不在任何一本教科书里，也不在任何一段可以复述的逻辑里。</p>
+
+    <p>那天我冒出一个念头：人作为碳基的智能，有一种能力特别重要。我当时管它叫"抽象"，但话一出口就觉得不对——这个词没抓住我真正想说的东西。后来我把这三件看似无关的事——<em>第六感、抉择、抽象</em>——摆在一起反复想，才发现它们其实是同一件事的三个切面。</p>
+
+    <div class="quote-block">
+      <span class="quote-mark">"</span>
+      <p>我们知道的，远比我们能说出来的多。
+      <span class="src">— Michael Polanyi，《个人知识》</span></p>
+    </div>
+  </div>
+
+  <!-- 02 -->
+  <div class="section">
+    <div class="section-number">02</div>
+    <div class="section-title">第六感，是压缩到无法解压的经验</div>
+
+    <p>先说第六感。它不是玄学。</p>
+
+    <p>它是被压缩到无法解压的经验。打过的几万手牌、盯过的无数根 K 线，全部沉到意识水面以下，在某个瞬间<strong>不经过语言</strong>，直接合成出一个判断。它的特征恰恰是不可分解——你说不出"因为 A、因为 B，所以不对"，你只是知道不对。</p>
+
+    <p>为什么说不出？因为语言是一根一维的管子，一次只能吐出一个词。而盘面、牌桌的真实状态是高维的：对手的呼吸、节奏的变化、你自己手心的汗、市场的厚度……几百个变量同时在动。你的神经系统能在这个高维空间里直接做模式匹配，但语言这根管子塞不下这个判断，只能在末端挤出一个标量——</p>
+
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="terminal-dot r"></div>
+        <div class="terminal-dot y"></div>
+        <div class="terminal-dot g"></div>
+        <span class="terminal-label">intuition — compressing</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="prompt-symbol">❯ </span><span class="prompt-text">读入：盘口 · 对手 · 节奏 · 体感 …… 几百维</span></div>
+        <div class="output">⣿ compressing... language bandwidth = 1D</div>
+        <div class="pick">↳ 输出：「不对。」<span class="typing-cursor"></span></div>
+      </div>
+    </div>
+
+    <div class="big-statement">
+      <p class="serif">第六感不是信息少，<br>是信息被压成了<span class="gold">一个字</span>。</p>
+    </div>
+
+    <p>而且它必须用代价才能喂出来。读一万篇交易复盘，和真金白银亏掉一笔，在权重上完全不是一回事。<strong>痛苦，是碳基独有的、极高权重的监督信号。</strong>很多时候是身体先知道——手心出汗、呼吸变浅——大脑事后才追认。那个由身体当传感器、把生理状态当成判断输入的回路，是硅基目前完全没有的。</p>
+  </div>
+
+  <!-- 03 -->
+  <div class="section">
+    <div class="section-number">03</div>
+    <div class="section-title">感觉分种类，真正的地狱是 50/50</div>
+
+    <p>但感觉分很多种。我自己的经验是：越是强烈的"不好"，反而越准。而且就算最后做了、结果是错的，你也心安理得——因为你知道，当时那个决策本身是对的。</p>
+
+    <p>那个"心安理得"，才是真正的资产，比判断对错还值钱。因为它让你不 tilt、不上头、不会赛后反复鞭尸。打牌的人都懂：真正让你爆掉的，不是某一手亏钱，是亏完之后那句"我当时明明觉得不对还做了"的自我怀疑——它会污染接下来的十手。强信号帮你免疫了这个。</p>
+
+    <p>所以反过来看，真正的地狱是 50/50。它折磨人，不只是难选——而是<strong>无论你怎么选，事后都会制造后悔</strong>。它先天剥夺了你的心安理得。这才是它真正的酷刑机制。</p>
+
+    <p>可这里藏着一个关键：50/50 其实是两种完全不同的东西，长得一模一样。</p>
+
+    <div class="dyad">
+      <div class="dyad-head">
+        <div class="hcell flat">平的 50/50</div>
+        <div class="hcell torn">撕扯的 50/50</div>
+      </div>
+      <div class="dyad-row">
+        <div class="dyad-cell flat">真的没信息，熵拉满，盘面就是没给你边。</div>
+        <div class="dyad-cell torn">两个强信号顶在一起，一正一反，相互抵消。</div>
+      </div>
+      <div class="dyad-row">
+        <div class="dyad-cell flat">纠结本身就是错的——两边 EV 几乎相等。</div>
+        <div class="dyad-cell torn">不能取平均，平均会把两个强信号一起埋掉。</div>
+      </div>
+      <div class="dyad-row">
+        <div class="dyad-cell flat">快选，选完不许后悔（你早知道它无所谓）。</div>
+        <div class="dyad-cell torn">把两股力拆开单独审判，一拆往往就塌向一边。</div>
+      </div>
+    </div>
+
+    <p>它俩数值一样，处理方式却完全相反。平的那种，你把全场最多的精力，花在了最不重要的决策上；撕扯的那种，你却懒得把它拆开，于是任由它假装成 50/50。分清这两副面孔，地狱就少了一半。剩下那一半实在拆不开、又必须当场决定的，我有两招：</p>
+
+    <div class="info-card">
+      <div class="info-card-title">50/50 的两个解法</div>
+      <div class="move">
+        <span class="n">MOVE 01 — 把是非题改成旋钮</span>
+        <p class="t">你之所以痛苦，一半是因为把它当成 yes/no 的开关。但你做交易明明有仓位这个维度。<b>让感觉的强度 = 仓位的大小。</b>强信号重仓，50/50 就是一个最小的、亏了也不疼的仓。这样你根本不需要痛苦地二选一——你只是把旋钮拧到很小，留在场上，等盘面把它推向某一边再加。你不是在猜对错，<b>你是在给不确定性定价。</b></p>
+      </div>
+      <div class="move">
+        <span class="n">MOVE 02 — 不赌对错，赌可逆性</span>
+        <p class="t">真到了拆也拆不开、又必须当场决定，唯一该问的就不再是"哪个对"（你已知不可知），而是：<b>哪个错了更便宜？哪个是能掉头的？</b>50/50 的时候，优化可逆性，不优化正确性。能反悔的那条路，自带期权，天然 +EV。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 -->
+  <div class="section">
+    <div class="section-number">04</div>
+    <div class="section-title">抽象，等于找到事物的拓扑结构吗？</div>
+
+    <p>绕了一圈，回到那个我一直没说清的词：抽象。我后来给它试了一个定义——抽象，是不是就等于找到一件事的<strong>拓扑结构</strong>？</p>
+
+    <p>这个比喻，七分对，三分会害你。</p>
+
+    <p>对的七分：拓扑的本质，是"形变中不变的东西"。咖啡杯和甜甜圈在拓扑上是同一个东西，因为都只有一个洞——你可以拉伸弯曲，但只要不撕开、不粘合，洞还在。拓扑扔掉了大小、远近、角度，只留下连接关系。抽象确实就是这个动作：<strong>扔掉表面，留下在变换下不变的结构。</strong></p>
+
+    <p>要补的三分：抽象不是"找到那个唯一的结构"，而是"<em>选择扔掉什么</em>"。拓扑只是扔得最狠的一种选法——它把所有度量全扔了，只剩连通性。但真正的本事，是为你的目的，决定哪些差异不算差异。</p>
+
+    <div class="big-statement">
+      <p class="serif">抽象的难点，从来不是能不能抽，<br>是那个旋钮<span class="gold">拧到几档</span>。</p>
+    </div>
+
+    <p>抽过头，"万物皆博弈""一切都是供需"，正确，但没用，无法指导任何具体动作；抽不够，又淹死在细节里，看不出两件事其实是一回事。高手和普通人的差距，几乎全在这个旋钮的手感上。</p>
+  </div>
+
+  <!-- 05 -->
+  <div class="section">
+    <div class="section-number">05</div>
+    <div class="section-title">最锋利的版本：抽象就是同构</div>
+
+    <p>抽象的最高形态，不是描述一个东西，是发现两个表面不同的东西，<strong>共享同一套骨架</strong>。</p>
+
+    <p>那天我和朋友到底发生了什么？我们各自从德州、BTC、期权里，抽出了同一个拓扑：</p>
+
+    <div class="triad">
+      <div class="triad-card">
+        <div class="ic">♠</div>
+        <div class="h">德州</div>
+        <div class="d">读牌、读人、控池、下注，赢在别人犯错的期望上。</div>
+      </div>
+      <div class="triad-card">
+        <div class="ic">₿</div>
+        <div class="h">BTC</div>
+        <div class="d">方向、仓位、止损、加减仓，活在波动和厚度里。</div>
+      </div>
+      <div class="triad-card">
+        <div class="ic">∫</div>
+        <div class="h">期权</div>
+        <div class="d">隐波、希腊字母、时间价值，本质是给不确定性定价。</div>
+      </div>
+    </div>
+    <div class="triad-skeleton">同一套骨架：<b>不完全信息</b> · <b>对抗</b> · <b>不确定下的 EV</b> · <b>下注规模</b></div>
+
+    <p>表面上一个是牌、一个是币、一个是合约，骨子里是同一个东西的不同贴图。这就是抽象的最高形态——不是描述，是看穿。</p>
+
+    <p>而且它给了一个检验抽象对不对的硬标准：<strong>能不能迁移。</strong>如果你在 A 域里悟到的东西，搬到 B 域居然能用，那证明你抓到了真骨架；如果一搬过去就失灵，说明你抽出来的是巧合，不是结构。那天聊天的爽感，本质上就是迁移成功的信号。</p>
+
+    <div class="big-statement">
+      <p class="serif">抽象的全部价值 = <span class="gold">压缩 + 迁移</span>。</p>
+    </div>
+  </div>
+
+  <!-- 06 -->
+  <div class="section">
+    <div class="section-number">06</div>
+    <div class="section-title">抽象的代价，与碳基的护城河</div>
+
+    <p>但抽象是把上膛的枪。</p>
+
+    <p>每一次抽象都是<strong>有损压缩</strong>。你抽出骨架的同一秒，扔掉了一些细节。Bug 永远是：你忘了自己扔掉了什么。"这是个均值回归的区间"——这个抽象扔掉了"<em>直到它不是为止</em>"。而那条被你扔进垃圾桶的尾巴，恰恰就是让你爆仓的地方。抽象能力强的人跑得快，也死在别人看不懂的地方——因为他死在自己那张地图没画的区域。</p>
+
+    <p>（拓扑这个比喻还有个坑：它扔掉所有量级。可你这行，量级就是命。对的方向 + 错的仓位，照样爆仓。所以别把市场抽到纯拓扑，得留一部分度量。）</p>
+
+    <p>说回开头那个念头。为什么我越来越觉得抽象能力重要？因为 AI 来了。生成、计算、检索、执行——这些"做出来"的事，硅基正在以碾压的速度变便宜。抽象，恰恰是硅基现在最擅长的事之一，我们很容易以为这块也守不住。</p>
+
+    <p>但真正稀缺的，从来不是抽象本身。是三样硅基暂时拿不走的东西，叠在一起：</p>
+
+    <div class="pyramid">
+      <div class="pyramid-level l1">抽象 × 迁移：把骨架搬到陌生领域复用</div>
+      <div class="pyramid-level l2">同构识别：一眼看穿两个东西是一回事</div>
+      <div class="pyramid-level l3">默会判断：用真金白银的代价喂出的第六感</div>
+      <div class="pyramid-level l4">生成 · 计算 · 检索 · 执行（这层交给 AI）</div>
+    </div>
+
+    <p>这三层之所以是护城河，是因为它们都要用代价喂、要身体在场、要压缩到无法言说。<strong>第六感是无意识的压缩，50/50 是压缩失效的边界，抽象是有意识的压缩</strong>——它们其实是同一种能力的三个切面：一种用代价喂养、由身体参与、能在高维不确定性里直接给出判断的，默会整合能力。</p>
+
+    <p>最后还有一个我自己也在想的问题：它是天生的手感，还是能练的？我现在的答案是——<strong class="spell">能练。</strong>练法和练第六感是同一套：大量地抽错、迁移失败、被现实打脸。它不神秘。它只是另一种用代价喂出来的本事。</p>
+  </div>
+
+</main>
+
+<!-- ENDING -->
+<section class="ending section">
+  <div class="ending-text">
+    硅基负责把世界<span class="em">"做出来"</span>，<br>
+    碳基负责把世界<span class="em">"看穿"</span>——<br>
+    在没有地图的地方，<br>
+    抽出那条别人看不见的骨架。<br><br>
+    这一层，<br>
+    机器还没学会。<br>
+    而它，<span class="gold">可以练</span>。
+  </div>
+</section>
+
+<footer class="footer">
+  <p>我们知道的，远比能说出来的多 · 2026 · <a href="../index.html">返回索引</a></p>
+</footer>
+
+<script>
+  const sections = document.querySelectorAll('.section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+  sections.forEach(s => observer.observe(s));
+
+  window.addEventListener('scroll', () => {
+    const hero = document.querySelector('.hero-content');
+    const scroll = window.scrollY;
+    if (scroll < window.innerHeight) {
+      hero.style.transform = `translateY(${scroll * 0.3}px)`;
+      hero.style.opacity = 1 - (scroll / window.innerHeight) * 0.8;
+    }
+  });
+</script>
+
+</body>
+</html>
