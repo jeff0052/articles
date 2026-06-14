@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a1a1a">
+<title>桃花是福，还是劫？</title>
+<meta name="description" content="韦小宝和西门庆都有桃花运，结局却天差地别。桃花本身不是好坏，它是能量，是考试——考的是承载它的德、定力和边界。一个男人最危险的地方，不是没有魅力，而是有魅力却没有定力。">
+<meta property="og:title" content="桃花是福，还是劫？">
+<meta property="og:description" content="桃花不是命运的奖励，而是命运给一个人的考试。有德的人，桃花是福；无德的人，桃花是劫。">
+<meta property="og:type" content="article">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --body: #333333;
+    --paper: #fafaf7;
+    --accent: #c1272d;
+    --accent2: #1d3557;
+    --dim: #666666;
+    --code-bg: #1a1a2e;
+    --code-green: #00ff88;
+    --card-bg: #f0ede6;
+    --border: #d8d4cc;
+    --gold: #b8860b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background: var(--paper);
+    color: var(--body);
+    overflow-x: hidden;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 2rem;
+    background: var(--ink);
+    color: #ffffff;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridShift 20s linear infinite;
+  }
+
+  .hero-particles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--gold);
+    opacity: 0;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .particle:nth-child(1) { left: 15%; top: 30%; animation-delay: 0s; }
+  .particle:nth-child(2) { left: 75%; top: 20%; animation-delay: 1s; }
+  .particle:nth-child(3) { left: 45%; top: 70%; animation-delay: 2s; }
+  .particle:nth-child(4) { left: 85%; top: 55%; animation-delay: 3s; }
+  .particle:nth-child(5) { left: 25%; top: 80%; animation-delay: 4s; }
+  .particle:nth-child(6) { left: 60%; top: 40%; animation-delay: 0.5s; }
+  .particle:nth-child(7) { left: 35%; top: 15%; animation-delay: 2.5s; }
+  .particle:nth-child(8) { left: 90%; top: 75%; animation-delay: 1.5s; }
+
+  @keyframes float {
+    0%, 100% { opacity: 0; transform: translateY(0) scale(1); }
+    20% { opacity: 0.8; }
+    50% { opacity: 0.4; transform: translateY(-40px) scale(1.5); }
+    80% { opacity: 0.6; }
+  }
+
+  @keyframes gridShift {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(60px, 60px); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 900px;
+  }
+
+  .hero-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #e8a838;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.3s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: clamp(2.2rem, 6vw, 4.2rem);
+    line-height: 1.35;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+    opacity: 0;
+    animation: fadeUp 1s 0.5s forwards;
+  }
+
+  .hero-title .highlight {
+    background: linear-gradient(135deg, #e8a838, #ff6b6b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-title .shadow {
+    background: linear-gradient(135deg, #6b7280, #c1272d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-subtitle {
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    font-weight: 400;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.8;
+    max-width: 650px;
+    margin: 0 auto 3rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.7s forwards;
+  }
+
+  .hero-divider {
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
+    margin: 0 auto;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.9s forwards;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.2em;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .scroll-hint::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 30px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+    margin: 0.5rem auto 0;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.7; }
+  }
+
+  /* ===== MAIN ===== */
+  .article {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 4rem 2rem 6rem;
+  }
+
+  .section {
+    margin-bottom: 5rem;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .section-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.3em;
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    line-height: 1.4;
+    margin-bottom: 2rem;
+    color: var(--ink);
+  }
+
+  .section-title::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 3px;
+    background: var(--accent);
+    margin-top: 1rem;
+  }
+
+  p {
+    font-size: 1.05rem;
+    line-height: 2;
+    color: var(--body);
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+  }
+
+  strong, b {
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  em {
+    font-style: normal;
+    background: linear-gradient(transparent 60%, rgba(184,134,11,0.25) 60%);
+    padding: 0 2px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* ===== QUOTE ===== */
+  .quote-block {
+    position: relative;
+    margin: 3rem 0;
+    padding: 2.5rem 2rem 2.5rem 3rem;
+    background: var(--card-bg);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+  }
+
+  .quote-block p {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0;
+    line-height: 1.9;
+  }
+
+  .quote-block .quote-mark {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.8rem;
+    font-size: 3rem;
+    color: var(--accent);
+    opacity: 0.3;
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+
+  /* ===== BIG STATEMENT ===== */
+  .big-statement {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    margin: 3rem 0;
+    background: var(--ink);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .big-statement::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(232,168,56,0.08), transparent 70%);
+  }
+
+  .big-statement .mono {
+    position: relative;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(1.1rem, 3vw, 1.8rem);
+    color: var(--code-green);
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 30px rgba(0,255,136,0.3);
+  }
+
+  .big-statement .serif {
+    position: relative;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 700;
+    font-size: clamp(1.3rem, 3.5vw, 2rem);
+    line-height: 1.6;
+    color: #ffffff;
+  }
+
+  .big-statement .serif .gold { color: #e8a838; }
+  .big-statement .serif .crimson { color: #e85d4d; }
+
+  /* ===== INFO CARD ===== */
+  .info-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin: 2.5rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .info-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--gold), var(--accent2));
+  }
+
+  .info-card-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--ink);
+  }
+
+  .info-card p { color: var(--body); }
+
+  /* ===== COMPARISON (two-character contrast) ===== */
+  .duel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    margin: 3rem 0;
+  }
+
+  .duel-card {
+    padding: 2rem;
+    border-radius: 14px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .duel-card.fortune {
+    background: linear-gradient(160deg, rgba(184,134,11,0.10), rgba(232,168,56,0.08));
+    border: 1px solid rgba(184,134,11,0.35);
+  }
+
+  .duel-card.curse {
+    background: linear-gradient(160deg, rgba(193,39,45,0.08), rgba(0,0,0,0.04));
+    border: 1px solid rgba(193,39,45,0.35);
+  }
+
+  .duel-card .who {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+  }
+
+  .duel-card .verdict {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+
+  .duel-card.fortune .verdict { color: var(--gold); }
+  .duel-card.curse .verdict { color: var(--accent); }
+
+  .duel-card .traits {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--body);
+  }
+
+  .duel-card .traits strong { color: var(--ink); }
+
+  /* ===== COMPARISON ===== */
+  .comparison {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 1.5rem;
+    align-items: center;
+    margin: 3rem 0;
+  }
+
+  .comp-box {
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+  }
+
+  .comp-box.old {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+  }
+
+  .comp-box.new {
+    background: linear-gradient(135deg, rgba(193,39,45,0.08), rgba(184,134,11,0.08));
+    border: 1px solid rgba(193,39,45,0.25);
+  }
+
+  .comp-box .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--dim);
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+  }
+
+  .comp-box .comp-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--ink);
+  }
+
+  .comp-box .desc {
+    font-size: 0.85rem;
+    color: var(--dim);
+    line-height: 1.6;
+  }
+
+  .comp-arrow {
+    font-size: 1.5rem;
+    color: var(--accent);
+  }
+
+  /* ===== ENDING ===== */
+  .ending {
+    text-align: center;
+    padding: 6rem 2rem;
+    background: var(--ink);
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ending::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(232,168,56,0.06), transparent);
+    pointer-events: none;
+  }
+
+  .ending-text {
+    position: relative;
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    line-height: 2.2;
+    color: rgba(255,255,255,0.85);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .ending-text .em { color: #ffffff; font-weight: 700; }
+  .ending-text .gold { color: #e8a838; font-weight: 700; }
+  .ending-text .crimson { color: #e85d4d; font-weight: 700; }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    border-top: 1px solid var(--border);
+    background: var(--paper);
+  }
+
+  .footer p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+  }
+
+  .footer a { color: var(--accent); text-decoration: none; }
+
+  .spell {
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  @media (max-width: 700px) {
+    .duel { grid-template-columns: 1fr; }
+    .comparison { grid-template-columns: 1fr; gap: 1rem; }
+    .comp-arrow { transform: rotate(90deg); }
+    .article { padding: 3rem 1.2rem 4rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-particles">
+    <div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+  </div>
+  <div class="hero-content">
+    <p class="hero-tag">桃花 · 命理 · 修为</p>
+    <h1 class="hero-title">桃花是<span class="highlight">福</span>，<br>还是<span class="shadow">劫</span>？</h1>
+    <p class="hero-subtitle">韦小宝和西门庆都有桃花运，结局却截然不同。桃花不是命运的奖励，而是命运给一个男人的考试。</p>
+    <div class="hero-divider"></div>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</section>
+
+<!-- ARTICLE -->
+<main class="article">
+
+  <!-- 01 -->
+  <div class="section">
+    <div class="section-number">01</div>
+    <div class="section-title">一个高人的提问</div>
+
+    <p>有个高人说过一句很有意思的话：</p>
+
+    <div class="quote-block">
+      <span class="quote-mark">"</span>
+      <p>韦小宝和西门庆都有桃花运，但两个人的命运截然不同。一个逍遥自在，一个身首异处。为什么？</p>
+    </div>
+
+    <p>这句话表面上讲的是桃花，实际上讲的是 — <strong>一个男人能不能承载自己的欲望、关系和福报</strong>。</p>
+  </div>
+
+  <!-- 02 -->
+  <div class="section">
+    <div class="section-number">02</div>
+    <div class="section-title">桃花是一种能量，不是评价</div>
+
+    <p>桃花本身不是好，也不是坏。<strong>桃花只是一种能量。</strong></p>
+
+    <p>一个人有桃花，说明他对人有吸引力，说明他容易被人看见，也容易进入关系。但桃花最后是福还是劫，<em>不取决于桃花有多少，而取决于这个人有没有德行、分寸、边界和智慧去承载它</em>。</p>
+
+    <p>韦小宝和西门庆的区别，正在这里。</p>
+  </div>
+
+  <!-- 03 -->
+  <div class="section">
+    <div class="section-number">03</div>
+    <div class="section-title">韦小宝 vs 西门庆 — 一种桃花，两种命</div>
+
+    <p><strong>韦小宝</strong>也荒唐，也圆滑，也有很多女人缘。但韦小宝的底层逻辑不是掠夺，而是<em>周旋</em>。他不是一个高尚的人，但他有活气，有人情味，有义气，也懂得保命。他最大的本事，不是桃花多，而是<strong class="spell">知道局</strong> — 知道什么时候进，什么时候退；什么时候装傻，什么时候认怂；什么时候靠近，什么时候逃命。</p>
+
+    <p>他虽然贪玩，但没有把自己彻底交给欲望。他的桃花背后，还有人缘、机缘和福缘托底。</p>
+
+    <p><strong>西门庆</strong>不同。他的问题不只是桃花多，而是他<strong>把桃花变成了欲望、占有和破坏</strong>。他进入关系，不是为了安顿关系，而是为了满足自己。他没有敬畏，没有边界，也没有真正的分寸。</p>
+
+    <div class="duel">
+      <div class="duel-card fortune">
+        <div class="who">韦小宝</div>
+        <div class="verdict">桃花 = 福</div>
+        <div class="traits">
+          人缘，不是色劫<br>
+          滋养，不是消耗<br>
+          流动，不是侵占<br>
+          <br>
+          得到的是<strong>资源、庇护、圆融、生机</strong>
+        </div>
+      </div>
+      <div class="duel-card curse">
+        <div class="who">西门庆</div>
+        <div class="verdict">桃花 = 劫</div>
+        <div class="traits">
+          色劫，不是人缘<br>
+          消耗，不是滋养<br>
+          侵占，不是流动<br>
+          <br>
+          得到的是<strong>怨恨、冲突、反噬、灭亡</strong>
+        </div>
+      </div>
+    </div>
+
+    <p>每多一段关系，就多一重因果；每多一次放纵，就削一分福报；每多一次越界，就为自己埋下一颗祸根。</p>
+
+    <p>所以同样是桃花，一个人得到的是<em>资源、庇护、圆融和生机</em>；另一个人得到的是<em>怨恨、冲突、反噬和灭亡</em>。</p>
+  </div>
+
+  <!-- 04 -->
+  <div class="section">
+    <div class="section-number">04</div>
+    <div class="section-title">桃花不是奖励，是考试</div>
+
+    <p>这才是桃花最真实的地方。</p>
+
+    <div class="big-statement">
+      <p class="serif">桃花不是命运的<span class="crimson">奖励</span>，<br>而是命运给一个人的<span class="gold">考试</span>。</p>
+    </div>
+
+    <p>它考验的是一个人的<strong>定力、德行和边界感</strong>。</p>
+
+    <div class="info-card">
+      <div class="info-card-title">同样是桃花，结果分四等</div>
+      <p><strong>有德的人</strong>，桃花是福。<br>
+      <strong>无德的人</strong>，桃花是劫。<br>
+      <strong>有智慧的人</strong>，桃花可以变成缘分。<br>
+      <strong>没有智慧的人</strong>，桃花最后会变成因果。</p>
+    </div>
+  </div>
+
+  <!-- 05 -->
+  <div class="section">
+    <div class="section-number">05</div>
+    <div class="section-title">一个男人最危险的地方</div>
+
+    <p>一个男人最危险的地方 —</p>
+
+    <div class="quote-block">
+      <span class="quote-mark">"</span>
+      <p>不是没有魅力，而是有魅力却没有定力；<br>
+      不是没有机会，而是机会太多却不知道取舍；<br>
+      不是没人喜欢，而是被人喜欢之后，<br>
+      误以为自己可以不受因果约束。</p>
+    </div>
+
+    <p>很多人以为桃花多是福气，其实未必。<strong>桃花多而无德，是劫数；桃花旺而无界，是消耗；桃花来而不知止，是败运的开始。</strong></p>
+  </div>
+
+  <!-- 06 -->
+  <div class="section">
+    <div class="section-number">06</div>
+    <div class="section-title">桃花真正考验的是修为</div>
+
+    <p>所以桃花真正考验的，是一个男人的<strong class="spell">修为</strong>。</p>
+
+    <div class="info-card">
+      <div class="info-card-title">五个问题，问自己</div>
+      <p>你有没有能力处理<strong>别人对你的喜欢</strong>？<br>
+      你有没有能力处理<strong>自己的欲望</strong>？<br>
+      你有没有能力<strong>在关系里不越界</strong>？<br>
+      你有没有能力<strong>在被需要的时候保持清醒</strong>？<br>
+      你有没有能力<strong>知道什么人该靠近，什么人该远离</strong>？</p>
+    </div>
+
+    <p>这五个问题如果答不上来，桃花再多，也是<em>命里的考卷</em>，不是命里的礼物。</p>
+  </div>
+
+  <!-- 07 -->
+  <div class="section">
+    <div class="section-number">07</div>
+    <div class="section-title">这也让我反思自己</div>
+
+    <p>我过去很多时候，并不是没有桃花，也不是没有关系里的吸引力。但真正的问题是，<strong>我有没有足够的修为去承载这些关系</strong>。</p>
+
+    <p>有时候，我会因为责任感太强而进入关系。<br>
+    有时候，我会因为别人需要我而心软。<br>
+    有时候，我会因为看见一个人的痛苦，就想去帮她、托她、度她。<br>
+    有时候，我以为这是深情，是善良，是担当 — 但后来发现，<em>这也可能是一种越位</em>。</p>
+
+    <div class="info-card">
+      <div class="info-card-title">桃花来了，分辨力是第一道关</div>
+      <p>不是每一个人都应该由我来救。<br>
+      不是每一段关系都值得我投入大量时间、精力和福报。<br>
+      不是每一个靠近我的人，都是我的缘分。<br>
+      <strong>有些人是缘，有些人是劫；有些关系滋养我，有些关系消耗我。</strong></p>
+    </div>
+
+    <p>桃花最可怕的地方，<strong>不是它来了，而是它来的时候，我没有分辨力</strong>。</p>
+
+    <p>如果我还没有完成自度，就急着去度人；如果我还没有站稳自己的根基，就把大量能量投向别人；如果我还没有足够的定力，就进入复杂的关系局里 — 那么所谓的桃花，就不一定是福，反而可能变成<em>消耗我的劫</em>。</p>
+  </div>
+
+  <!-- 08 -->
+  <div class="section">
+    <div class="section-number">08</div>
+    <div class="section-title">承载桃花的命</div>
+
+    <p>韦小宝和西门庆的故事，其实给了男人一个很深的提醒：</p>
+
+    <div class="quote-block">
+      <span class="quote-mark">"</span>
+      <p>桃花来了，不要先高兴。<br>
+      先问自己：我能不能承载？</p>
+    </div>
+
+    <p>我有没有德？我有没有界限？我有没有分寸？我有没有能力处理关系背后的因果？我有没有能力不被欲望牵着走？</p>
+
+    <p>真正厉害的男人，<strong>不是桃花多，而是桃花来了，他知道如何安置；诱惑来了，他知道如何取舍；关系来了，他知道自己该不该进入</strong>。</p>
+
+    <div class="comparison">
+      <div class="comp-box old">
+        <div class="label">桃花是气场</div>
+        <div class="comp-title">来与不来</div>
+        <div class="desc">是命里的能量<br>未必由你决定</div>
+      </div>
+      <div class="comp-arrow">→</div>
+      <div class="comp-box new">
+        <div class="label">桃花是考卷</div>
+        <div class="comp-title">答得好不好</div>
+        <div class="desc">是命里的修行<br>完全由你决定</div>
+      </div>
+    </div>
+
+    <p>桃花是一个人的气场，也是一个人的考卷。<strong>答得好，是福缘；答不好，是劫数。</strong></p>
+
+    <p>所以我现在越来越觉得，一个男人真正要修的，<em>不是让自己更有桃花，而是让自己更有定力</em>。</p>
+
+    <div class="big-statement">
+      <p class="serif">有<span class="gold">定力</span>，桃花就是锦上添花。<br>没<span class="gold">定力</span>，桃花就是<span class="crimson">命里的刀</span>。</p>
+    </div>
+
+    <p><strong>韦小宝活下来了</strong>，因为他懂局，懂退，懂平衡。<br>
+    <strong>西门庆败下去了</strong>，因为他贪欲，无界，不知止。</p>
+
+    <p>这就是区别。</p>
+  </div>
+
+</main>
+
+<!-- ENDING -->
+<section class="ending section">
+  <div class="ending-text">
+    桃花<span class="em">不是问题</span>。
+    <br><br>
+    问题是 —<br>
+    一个人有没有<span class="gold">承载桃花的命</span>。
+  </div>
+</section>
+
+<footer class="footer">
+  <p>桃花是福，还是劫？ · 2026 · <a href="../index.html">返回索引</a></p>
+</footer>
+
+<script>
+  const sections = document.querySelectorAll('.section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+  sections.forEach(s => observer.observe(s));
+
+  window.addEventListener('scroll', () => {
+    const hero = document.querySelector('.hero-content');
+    const scroll = window.scrollY;
+    if (scroll < window.innerHeight) {
+      hero.style.transform = `translateY(${scroll * 0.3}px)`;
+      hero.style.opacity = 1 - (scroll / window.innerHeight) * 0.8;
+    }
+  });
+</script>
+
+</body>
+</html>
