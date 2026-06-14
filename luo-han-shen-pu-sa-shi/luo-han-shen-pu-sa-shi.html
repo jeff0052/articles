@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a1a1a">
+<title>以罗汉之身，行菩萨之事</title>
+<meta name="description" content="我过去很长一段时间最大的问题，是以罗汉之身行菩萨之事——自己都还没安顿好，却频繁进入"度人"的位置。借佛教三个阶位的分级，反省责任感如何成了越位的推手。">
+<meta property="og:title" content="以罗汉之身，行菩萨之事">
+<meta property="og:description" content="真正的顺序是先自度，再度人；先立己，再达人。把自己修成一个稳定、有序、有力量的人，再去影响别人。">
+<meta property="og:type" content="article">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --body: #333333;
+    --paper: #fafaf7;
+    --accent: #c1272d;
+    --accent2: #1d3557;
+    --dim: #666666;
+    --code-bg: #1a1a2e;
+    --code-green: #00ff88;
+    --card-bg: #f0ede6;
+    --border: #d8d4cc;
+    --gold: #b8860b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background: var(--paper);
+    color: var(--body);
+    overflow-x: hidden;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 2rem;
+    background: var(--ink);
+    color: #ffffff;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridShift 20s linear infinite;
+  }
+
+  .hero-particles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--gold);
+    opacity: 0;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .particle:nth-child(1) { left: 15%; top: 30%; animation-delay: 0s; }
+  .particle:nth-child(2) { left: 75%; top: 20%; animation-delay: 1s; }
+  .particle:nth-child(3) { left: 45%; top: 70%; animation-delay: 2s; }
+  .particle:nth-child(4) { left: 85%; top: 55%; animation-delay: 3s; }
+  .particle:nth-child(5) { left: 25%; top: 80%; animation-delay: 4s; }
+  .particle:nth-child(6) { left: 60%; top: 40%; animation-delay: 0.5s; }
+  .particle:nth-child(7) { left: 35%; top: 15%; animation-delay: 2.5s; }
+  .particle:nth-child(8) { left: 90%; top: 75%; animation-delay: 1.5s; }
+
+  @keyframes float {
+    0%, 100% { opacity: 0; transform: translateY(0) scale(1); }
+    20% { opacity: 0.8; }
+    50% { opacity: 0.4; transform: translateY(-40px) scale(1.5); }
+    80% { opacity: 0.6; }
+  }
+
+  @keyframes gridShift {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(60px, 60px); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 900px;
+  }
+
+  .hero-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #e8a838;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.3s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: clamp(2.2rem, 6vw, 4.2rem);
+    line-height: 1.35;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+    opacity: 0;
+    animation: fadeUp 1s 0.5s forwards;
+  }
+
+  .hero-title .highlight {
+    background: linear-gradient(135deg, #e8a838, #ff6b6b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-subtitle {
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    font-weight: 400;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.8;
+    max-width: 650px;
+    margin: 0 auto 3rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.7s forwards;
+  }
+
+  .hero-divider {
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
+    margin: 0 auto;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.9s forwards;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.2em;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .scroll-hint::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 30px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+    margin: 0.5rem auto 0;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.7; }
+  }
+
+  /* ===== MAIN ===== */
+  .article {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 4rem 2rem 6rem;
+  }
+
+  .section {
+    margin-bottom: 5rem;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .section-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.3em;
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    line-height: 1.4;
+    margin-bottom: 2rem;
+    color: var(--ink);
+  }
+
+  .section-title::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 3px;
+    background: var(--accent);
+    margin-top: 1rem;
+  }
+
+  p {
+    font-size: 1.05rem;
+    line-height: 2;
+    color: var(--body);
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+  }
+
+  strong, b {
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  em {
+    font-style: normal;
+    background: linear-gradient(transparent 60%, rgba(184,134,11,0.25) 60%);
+    padding: 0 2px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* ===== QUOTE ===== */
+  .quote-block {
+    position: relative;
+    margin: 3rem 0;
+    padding: 2.5rem 2rem 2.5rem 3rem;
+    background: var(--card-bg);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+  }
+
+  .quote-block p {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0;
+    line-height: 1.9;
+  }
+
+  .quote-block .quote-mark {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.8rem;
+    font-size: 3rem;
+    color: var(--accent);
+    opacity: 0.3;
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+
+  /* ===== BIG STATEMENT ===== */
+  .big-statement {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    margin: 3rem 0;
+    background: var(--ink);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .big-statement::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(232,168,56,0.08), transparent 70%);
+  }
+
+  .big-statement .mono {
+    position: relative;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(1.1rem, 3vw, 1.8rem);
+    color: var(--code-green);
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 30px rgba(0,255,136,0.3);
+  }
+
+  .big-statement .serif {
+    position: relative;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 700;
+    font-size: clamp(1.3rem, 3.5vw, 2rem);
+    line-height: 1.6;
+    color: #ffffff;
+  }
+
+  .big-statement .serif .gold { color: #e8a838; }
+
+  /* ===== INFO CARD ===== */
+  .info-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin: 2.5rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .info-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--gold), var(--accent2));
+  }
+
+  .info-card-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--ink);
+  }
+
+  .info-card p { color: var(--body); }
+
+  /* ===== COMPARISON ===== */
+  .comparison {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 1.5rem;
+    align-items: center;
+    margin: 3rem 0;
+  }
+
+  .comp-box {
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+  }
+
+  .comp-box.old {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+  }
+
+  .comp-box.new {
+    background: linear-gradient(135deg, rgba(193,39,45,0.08), rgba(184,134,11,0.08));
+    border: 1px solid rgba(193,39,45,0.25);
+  }
+
+  .comp-box .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--dim);
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+  }
+
+  .comp-box .comp-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--ink);
+  }
+
+  .comp-box .desc {
+    font-size: 0.85rem;
+    color: var(--dim);
+    line-height: 1.6;
+  }
+
+  .comp-arrow {
+    font-size: 1.5rem;
+    color: var(--accent);
+  }
+
+  /* ===== PYRAMID ===== */
+  .pyramid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin: 2.5rem 0;
+  }
+
+  .pyramid-level {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    transition: transform 0.3s;
+    color: var(--ink);
+  }
+
+  .pyramid-level:hover { transform: scale(1.03); }
+
+  .pyramid-level.l1 {
+    width: 40%;
+    background: linear-gradient(135deg, var(--gold), #8b6914);
+    color: #ffffff;
+    font-weight: 700;
+    font-family: 'Noto Serif SC', serif;
+  }
+
+  .pyramid-level.l2 {
+    width: 55%;
+    background: linear-gradient(135deg, rgba(193,39,45,0.85), #a01f24);
+    color: #ffffff;
+    font-weight: 700;
+    font-family: 'Noto Serif SC', serif;
+  }
+
+  .pyramid-level.l3 {
+    width: 70%;
+    background: rgba(193,39,45,0.12);
+    border: 1px solid rgba(193,39,45,0.3);
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .pyramid-level.l4 {
+    width: 85%;
+    background: rgba(0,0,0,0.03);
+    border: 1px solid var(--border);
+    color: var(--dim);
+  }
+
+  /* ===== ENDING ===== */
+  .ending {
+    text-align: center;
+    padding: 6rem 2rem;
+    background: var(--ink);
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ending::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(232,168,56,0.06), transparent);
+    pointer-events: none;
+  }
+
+  .ending-text {
+    position: relative;
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    line-height: 2.2;
+    color: rgba(255,255,255,0.85);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .ending-text .em { color: #ffffff; font-weight: 700; }
+  .ending-text .gold { color: #e8a838; font-weight: 700; }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    border-top: 1px solid var(--border);
+    background: var(--paper);
+  }
+
+  .footer p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+  }
+
+  .footer a { color: var(--accent); text-decoration: none; }
+
+  .spell {
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  @media (max-width: 700px) {
+    .comparison { grid-template-columns: 1fr; gap: 1rem; }
+    .comp-arrow { transform: rotate(90deg); }
+    .pyramid-level.l1 { width: 60%; }
+    .pyramid-level.l2 { width: 72%; }
+    .pyramid-level.l3 { width: 84%; }
+    .pyramid-level.l4 { width: 96%; }
+    .article { padding: 3rem 1.2rem 4rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-particles">
+    <div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+  </div>
+  <div class="hero-content">
+    <p class="hero-tag">修行 · 反思 · 自度</p>
+    <h1 class="hero-title">以<span class="highlight">罗汉</span>之身，<br>行<span class="highlight">菩萨</span>之事</h1>
+    <p class="hero-subtitle">关于"度人"这件事的一次诚实反省 — 当我看清自己还在罗汉的阶段，却频繁做菩萨的事情。</p>
+    <div class="hero-divider"></div>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</section>
+
+<!-- ARTICLE -->
+<main class="article">
+
+  <!-- 01 -->
+  <div class="section">
+    <div class="section-number">01</div>
+    <div class="section-title">一个反思的起点</div>
+
+    <p>我最近对自己有一个很深的反思：我过去很多行为，并不是单纯的善良，而是一种<strong>超出自己修为和能量边界的"度人"</strong>。</p>
+
+    <p>表面看，那是责任感、是善良、是深情。更深一层看，那也可能是一种<em>越位</em>。</p>
+
+    <p>越位的代价，不是抽象的。是我的时间、精力、情绪、节奏 — 一点一点被关系吃掉。</p>
+  </div>
+
+  <!-- 02 -->
+  <div class="section">
+    <div class="section-number">02</div>
+    <div class="section-title">罗汉、菩萨、佛 — 三个阶位</div>
+
+    <p>如果借佛教里的一个比喻来看，<strong>罗汉、菩萨和佛</strong>，其实代表着三种不同的境界，也对应三种不同的"对待他人"的姿态。</p>
+
+    <div class="pyramid">
+      <div class="pyramid-level l1">佛 · 普度众生</div>
+      <div class="pyramid-level l2">菩萨 · 自度度人</div>
+      <div class="pyramid-level l3">罗汉 · 自度</div>
+      <div class="pyramid-level l4">凡夫 · 一切的起点</div>
+    </div>
+
+    <p><strong>罗汉重在自度。</strong>一个人先看清自己的烦恼，断掉自己的执着，安顿自己的生命，让自己从混乱、欲望、痛苦和轮回里走出来。</p>
+
+    <p><strong>菩萨重在度人。</strong>菩萨不只是自己解脱，还愿意回到众生之中，承担别人的痛苦，帮助别人过河。</p>
+
+    <p><strong>佛则是圆满觉悟之后的普度众生。</strong>佛不是靠情绪、责任感、个人意志去救人，而是以<em>圆满的智慧和慈悲</em>，因缘成熟时自然教化众生。</p>
+
+    <p>三个阶位的关键，不只是境界的高低，而是<strong class="spell">力量从哪里来</strong> — 罗汉的力量是自己的安顿，菩萨的力量是自度之后的余力，佛的力量是觉行圆满之后的自然流淌。</p>
+  </div>
+
+  <!-- 03 -->
+  <div class="section">
+    <div class="section-number">03</div>
+    <div class="section-title">我把自己的位置搞错了</div>
+
+    <p>我今天反思自己，发现我过去很长一段时间，最大的问题就是：<strong>我明明还在罗汉的阶段，却经常做菩萨的事情</strong>。</p>
+
+    <p>我自己还没有完全安顿好 — 事业、身体、现金流、情绪、秩序，都还需要大量精力去建设。但我在关系里，尤其是在<em>男女关系</em>里，很容易进入一个"度人"的位置：</p>
+
+    <div class="info-card">
+      <div class="info-card-title">四个下意识的反射动作</div>
+      <p>我会看见对方的<strong>痛苦</strong>，就想帮她脱离痛苦。<br>
+      我会看见对方的<strong>混乱</strong>，就想帮她建立秩序。<br>
+      我会看见对方的<strong>不成熟</strong>，就想陪她成长。<br>
+      我会看见对方的<strong>缺口</strong>，就下意识想用自己的能量去补上。</p>
+    </div>
+
+    <p>表面看，这是责任感，是善良，是深情。但更深一层看，<strong>这也可能是一种越位</strong>。</p>
+  </div>
+
+  <!-- 04 -->
+  <div class="section">
+    <div class="section-number">04</div>
+    <div class="section-title">真正的菩萨，不是靠消耗自己</div>
+
+    <p>因为真正的菩萨，<strong>不是靠消耗自己来度人</strong>。真正的菩萨一定有足够的<em>定力、智慧、福报和能量</em>。</p>
+
+    <p>可我很多时候并没有那么高的境界，我只是责任感太强，心太软，也太容易把别人的人生扛到自己身上。</p>
+
+    <p>于是，我就变成了 —</p>
+
+    <div class="big-statement">
+      <p class="serif">以<span class="gold">罗汉</span>之身，<br>行<span class="gold">菩萨</span>之事。</p>
+    </div>
+  </div>
+
+  <!-- 05 -->
+  <div class="section">
+    <div class="section-number">05</div>
+    <div class="section-title">这种错位的代价</div>
+
+    <p>结果就是，我消耗了大量<strong>时间、精力、情绪和福报</strong>。</p>
+
+    <div class="comparison">
+      <div class="comp-box old">
+        <div class="label">表面账</div>
+        <div class="comp-title">我在帮她</div>
+        <div class="desc">看起来是付出<br>看起来是慈悲<br>看起来是责任</div>
+      </div>
+      <div class="comp-arrow">→</div>
+      <div class="comp-box new">
+        <div class="label">真账</div>
+        <div class="comp-title">我在被关系拖住</div>
+        <div class="desc">事业节奏被打乱<br>生命秩序被搁置<br>自我修行被中断</div>
+      </div>
+    </div>
+
+    <p>别人未必真的被我度了，但我自己却被关系拖住了。<br>
+    别人未必真正成长了，但我的<em>事业节奏、生命秩序和自我修行</em>却被打乱了。</p>
+  </div>
+
+  <!-- 06 -->
+  <div class="section">
+    <div class="section-number">06</div>
+    <div class="section-title">不是每个人都该由我来救</div>
+
+    <p>这也是我最近很重要的一个觉察：</p>
+
+    <div class="quote-block">
+      <span class="quote-mark">"</span>
+      <p>不是每一个人都该由我来救，不是每一段关系都值得我用命去托举，不是每一个痛苦的人都真的准备好改变。</p>
+    </div>
+
+    <div class="info-card">
+      <div class="info-card-title">看清四种靠近</div>
+      <p>有些人靠近我，是因为她<strong>需要能量</strong>。<br>
+      有些人依赖我，是因为她<strong>还不愿意承担自己的人生</strong>。<br>
+      有些关系看起来是爱，<strong>其实是我在替对方修行</strong>。<br>
+      而替别人修行，最后往往会<em>荒废自己的修行</em>。</p>
+    </div>
+  </div>
+
+  <!-- 07 -->
+  <div class="section">
+    <div class="section-number">07</div>
+    <div class="section-title">回到自己的位置</div>
+
+    <p>所以我现在要重新回到自己的位置。</p>
+
+    <p>当我还是罗汉的时候，我最重要的功课<strong>不是度人，而是自度</strong>。我应该先把自己修好 — 把事业修稳，把身体修强，把心性修定，把生活秩序建立起来。</p>
+
+    <div class="info-card">
+      <div class="info-card-title">四条边界，我反复跟自己说</div>
+      <p>我可以<strong>善良</strong>，但不能无边界。<br>
+      我可以<strong>帮助别人</strong>，但不能替别人承担命运。<br>
+      我可以<strong>爱人</strong>，但不能用拯救来证明自己的价值。<br>
+      我可以有<strong>慈悲心</strong>，但不能把责任感误认为菩萨心。</p>
+    </div>
+  </div>
+
+  <!-- 08 -->
+  <div class="section">
+    <div class="section-number">08</div>
+    <div class="section-title">真正的顺序：先自度，再度人</div>
+
+    <p>真正的顺序应该是：</p>
+
+    <div class="big-statement">
+      <p class="serif">先<span class="gold">自度</span>，再<span class="gold">度人</span>。<br>先<span class="gold">立己</span>，再<span class="gold">达人</span>。</p>
+    </div>
+
+    <p>先把自己修成一个<strong>稳定、有序、有力量的人</strong>，再去影响别人。</p>
+
+    <p>否则，我所谓的度人，不过是用自己的消耗，去填补别人的空洞。</p>
+
+    <div class="quote-block">
+      <span class="quote-mark">"</span>
+      <p>这不是慈悲，这是执着。<br>
+      这不是修行，这是越位。<br>
+      这不是菩萨道，而是我还没有看清自己的边界。</p>
+    </div>
+
+    <p>我现在要承认：我过去有很多时候，是把自己<em>放错了位置</em>。我还没有到佛的境界，也没有真正具备菩萨的资粮。我现在最该做的，是先做一个<strong class="spell">真正能自度的人</strong>。</p>
+
+    <p>等我自己足够稳定、足够清醒、足够强大时，我自然会影响别人。那时候，我不需要刻意去度人 — <strong>别人靠近我，本身就会得到启发</strong>。</p>
+  </div>
+
+</main>
+
+<!-- ENDING -->
+<section class="ending section">
+  <div class="ending-text">
+    我过去最大的问题，<br>
+    是以<span class="gold">罗汉之身</span>，行<span class="gold">菩萨之事</span>。
+    <br><br>
+    而我现在真正的修行，<br>
+    是先回到<span class="em">罗汉的位置</span>，<br>
+    <span class="em">把自己度出来</span>。
+  </div>
+</section>
+
+<footer class="footer">
+  <p>以罗汉之身，行菩萨之事 · 2026 · <a href="../index.html">返回索引</a></p>
+</footer>
+
+<script>
+  const sections = document.querySelectorAll('.section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+  sections.forEach(s => observer.observe(s));
+
+  window.addEventListener('scroll', () => {
+    const hero = document.querySelector('.hero-content');
+    const scroll = window.scrollY;
+    if (scroll < window.innerHeight) {
+      hero.style.transform = `translateY(${scroll * 0.3}px)`;
+      hero.style.opacity = 1 - (scroll / window.innerHeight) * 0.8;
+    }
+  });
+</script>
+
+</body>
+</html>
