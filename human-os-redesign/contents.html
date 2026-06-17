@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0d0d12">
+<title>从生存文明进入探索文明 · 目录</title>
+<meta name="description" content="《从生存文明进入探索文明》全书目录。五部二十章：旧世界的诞生、三个前提的崩塌、重写人生、重写文明、死亡之后，终于人类操作系统 2.0。">
+<meta property="og:title" content="从生存文明进入探索文明 · 目录">
+<meta property="og:description" content="人类过去五千年的文明，是在短寿命、低容错、碳基智能垄断的条件下发展出来的。而未来五十年，长寿命、高容错、碳硅共存，将迫使我们重新思考一切。">
+<meta property="og:type" content="book">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d12;
+    --body: #333333;
+    --paper: #fafaf7;
+    --accent: #2d6cdf;
+    --accent2: #6b46c1;
+    --dim: #666666;
+    --code-green: #00ff88;
+    --card-bg: #f0ede6;
+    --border: #d8d4cc;
+    --gold: #b8860b;
+    --crimson: #c1272d;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background: var(--paper);
+    color: var(--body);
+    overflow-x: hidden;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 78vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 4rem 2rem;
+    background: var(--ink);
+    color: #ffffff;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(45,108,223,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(45,108,223,0.06) 1px, transparent 1px);
+    background-size: 48px 48px;
+    animation: gridShift 24s linear infinite;
+  }
+
+  @keyframes gridShift {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(48px, 48px); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 820px;
+  }
+
+  .hero-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--code-green);
+    margin-bottom: 1.6rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 5.5vw, 3.6rem);
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.4rem;
+    color: #ffffff;
+    opacity: 0;
+    animation: fadeUp 1s 0.4s forwards;
+  }
+
+  .hero-title .highlight {
+    background: linear-gradient(135deg, #5b8def, #6b46c1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(0.8rem, 2vw, 1rem);
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.1em;
+    opacity: 0;
+    animation: fadeUp 1s 0.55s forwards;
+  }
+
+  .hero-divider {
+    width: 60px;
+    height: 2px;
+    background: var(--code-green);
+    margin: 1.8rem auto 0;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.7s forwards;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== TOC ===== */
+  .toc {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 4rem 2rem 5rem;
+  }
+
+  /* preface row */
+  .preface {
+    display: block;
+    text-decoration: none;
+    background: var(--ink);
+    border-radius: 16px;
+    padding: 1.8rem 2rem;
+    margin-bottom: 3.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  .preface::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 80% 0%, rgba(0,255,136,0.1), transparent 60%);
+  }
+  .preface:hover { transform: translateY(-3px); }
+  .preface .p-tag {
+    position: relative;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--code-green);
+    margin-bottom: 0.5rem;
+  }
+  .preface .p-title {
+    position: relative;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ffffff;
+  }
+  .preface .p-more {
+    position: relative;
+    display: inline-block;
+    margin-top: 0.6rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.55);
+    transition: color 0.3s ease;
+  }
+  .preface:hover .p-more { color: var(--code-green); }
+
+  .part {
+    margin-bottom: 3.5rem;
+    opacity: 0;
+    transform: translateY(36px);
+    transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .part.visible { opacity: 1; transform: translateY(0); }
+
+  .part-head {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1.6rem;
+    border-bottom: 2px solid var(--pc, var(--accent));
+  }
+  .part-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--pc, var(--accent));
+    white-space: nowrap;
+  }
+  .part-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+
+  .chapters { list-style: none; }
+
+  .chapter {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 1rem;
+    padding: 1.1rem 0.4rem;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+  .chapter:last-child { border-bottom: none; }
+
+  .ch-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--pc, var(--accent));
+    line-height: 1.5;
+  }
+
+  .ch-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.5;
+    margin-bottom: 0.4rem;
+  }
+
+  .ch-points {
+    font-size: 0.88rem;
+    color: var(--dim);
+    line-height: 1.7;
+  }
+  .ch-points span { white-space: nowrap; }
+  .ch-points .sep { color: var(--pc, var(--accent)); opacity: 0.5; padding: 0 0.15rem; }
+
+  /* part color themes */
+  .part.p1 { --pc: var(--gold); }
+  .part.p2 { --pc: var(--crimson); }
+  .part.p3 { --pc: var(--accent); }
+  .part.p4 { --pc: var(--accent2); }
+  .part.p5 { --pc: #0a9e6e; }
+
+  /* ===== FINALE ===== */
+  .finale {
+    background: var(--ink);
+    color: #fff;
+    border-radius: 18px;
+    padding: 3rem 2.2rem;
+    margin-top: 1rem;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(36px);
+    transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .finale.visible { opacity: 1; transform: translateY(0); }
+  .finale::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(45,108,223,0.16), transparent 70%);
+  }
+  .finale .f-num {
+    position: relative;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--code-green);
+    margin-bottom: 0.8rem;
+  }
+  .finale .f-title {
+    position: relative;
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(1.6rem, 4.5vw, 2.4rem);
+    font-weight: 900;
+    margin-bottom: 1.6rem;
+  }
+  .finale .f-title .hl {
+    background: linear-gradient(135deg, #5b8def, var(--code-green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .finale .f-body {
+    position: relative;
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(1.05rem, 2.4vw, 1.3rem);
+    line-height: 2;
+    color: rgba(255,255,255,0.85);
+  }
+  .finale .f-body strong { color: #fff; }
+  .finale .f-body .gold { color: #e8a838; font-weight: 700; }
+  .finale .f-body .green { color: var(--code-green); font-weight: 700; }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    border-top: 1px solid var(--border);
+    background: var(--paper);
+  }
+  .footer p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+  }
+  .footer a { color: var(--accent); text-decoration: none; }
+
+  @media (max-width: 700px) {
+    .toc { padding: 3rem 1.2rem 4rem; }
+    .chapter { grid-template-columns: 2.2rem 1fr; gap: 0.7rem; }
+    .ch-points span { white-space: normal; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <p class="hero-tag">目录 · Table of Contents</p>
+    <h1 class="hero-title">从生存文明<br>进入<span class="highlight">探索文明</span></h1>
+    <p class="hero-sub">5 PARTS · 20 CHAPTERS · 1 FINALE</p>
+    <div class="hero-divider"></div>
+  </div>
+</section>
+
+<!-- TOC -->
+<main class="toc">
+
+  <!-- 序言 -->
+  <a class="preface" href="human-os-redesign.html">
+    <div class="p-tag">序言 · Preface</div>
+    <div class="p-title">我们正在使用一个过时的人类操作系统</div>
+    <span class="p-more">阅读序言 →</span>
+  </a>
+
+  <!-- 第一部 -->
+  <section class="part p1">
+    <div class="part-head">
+      <span class="part-num">第一部</span>
+      <h2 class="part-title">旧世界的诞生</h2>
+    </div>
+    <ol class="chapters">
+      <li class="chapter">
+        <div class="ch-num">01</div>
+        <div>
+          <div class="ch-title">我们为何成为今天的样子</div>
+          <div class="ch-points"><span>农业文明</span><span class="sep">·</span><span>生存压力</span><span class="sep">·</span><span>人类操作系统的形成</span></div>
+        </div>
+      </li>
+      <li class="chapter">
+        <div class="ch-num">02</div>
+        <div>
+          <div class="ch-title">短寿命文明</div>
+          <div class="ch-points"><span>平均寿命 40 岁的世界</span><span class="sep">·</span><span>为什么会有三十而立</span><span class="sep">·</span><span>为什么会有终身职业</span></div>
+        </div>
+      </li>
+      <li class="chapter">
+        <div class="ch-num">03</div>
+        <div>
+          <div class="ch-title">低容错社会</div>
+          <div class="ch-points"><span>错误为何如此昂贵</span><span class="sep">·</span><span>东亚文化与确定性崇拜</span><span class="sep">·</span><span>教育为何奖励标准答案</span></div>
+        </div>
+      </li>
+      <li class="chapter">
+        <div class="ch-num">04</div>
+        <div>
+          <div class="ch-title">碳基智能的局限</div>
+          <div class="ch-points"><span>情绪</span><span class="sep">·</span><span>记忆</span><span class="sep">·</span><span>死亡</span><span class="sep">·</span><span>遗传</span></div>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- 第二部 -->
+  <section class="part p2">
+    <div class="part-head">
+      <span class="part-num">第二部</span>
+      <h2 class="part-title">三个前提的崩塌</h2>
+    </div>
+    <ol class="chapters">
+      <li class="chapter">
+        <div class="ch-num">05</div>
+        <div>
+          <div class="ch-title">长寿命革命</div>
+          <div class="ch-points"><span>100 岁人生</span><span class="sep">·</span><span>150 岁人生</span><span class="sep">·</span><span>200 岁人生</span></div>
+        </div>
+      </li>
+      <li class="chapter">
+        <div class="ch-num">06</div>
+        <div>
+          <div class="ch-title">硅基智能的诞生</div>
+          <div class="ch-points"><span>从工具到智能体</span><span class="sep">·</span><span>Agent 社会</span><span class="sep">·</span><span>数字生命</span></div>
+        </div>
+      </li>
+      <li class="chapter">
+        <div class="ch-num">07</div>
+        <div>
+          <div class="ch-title">高容错社会</div>
+          <div class="ch-points"><span>社会保障</span><span class="sep">·</span><span>AI 辅助</span><span class="sep">·</span><span>试错成本下降</span></div>
+        </div>
+      </li>
+      <li class="chapter">
+        <div class="ch-num">08</div>
+        <div>
+          <div class="ch-title">文明的拐点</div>
+          <div class="ch-points"><span>为什么这次变化和工业革命不同</span></div>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- 第三部 -->
+  <section class="part p3">
+    <div class="part-head">
+      <span class="part-num">第三部</span>
+      <h2 class="part-title">重写人生</h2>
+    </div>
+    <ol class="chapters">
+      <li class="chapter">
+        <div class="ch-num">09</div>
+        <div>
+          <div class="ch-title">教育将不再发生在 20 岁之前</div>
+          <div class="ch-points"><span>终身学习</span><span class="sep">·</span><span>人格升级</span><span class="sep">·</span><span>第二人生</span></div>
+        </div>
+      </li>
+      <li class="chapter">
+        <div class="ch-num">10</div>
+        <div>
+          <div class="ch-title">职业将成为阶段性选择</div>
+          <div class="ch-points"><span>20 年一个职业周期</span><span class="sep">·</span><span>AI 协作时代</span></div>
+        </div>
+      </li>
+      <li class="chapter">
+        <div class="ch-num">11</div>
+        <div>
+          <div class="ch-title">婚姻制度的重构</div>
+          <div class="ch-points"><span>婚姻的历史</span><span class="sep">·</span><span>长寿命时代的伴侣关系</span><span class="sep">·</span><span>家庭结构演化</span></div>
+        </div>
+      </li>
+      <li class="chapter">
+        <div class="ch-num">12</div>
+        <div>
+          <div class="ch-title">子女与代际关系</div>
+          <div class="ch-points"><span>四代同堂变成六代同堂</span><span class="sep">·</span><span>财富传承问题</span></div>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- 第四部 -->
+  <section class="part p4">
+    <div class="part-head">
+      <span class="part-num">第四部</span>
+      <h2 class="part-title">重写文明</h2>
+    </div>
+    <ol class="chapters">
+      <li class="chapter">
+        <div class="ch-num">13</div>
+        <div>
+          <div class="ch-title">财富的重新定义</div>
+          <div class="ch-points"><span>财富是确定性吗？</span><span class="sep">·</span><span>财富是时间吗？</span><span class="sep">·</span><span>财富是选择权吗？</span></div>
+        </div>
+      </li>
+      <li class="chapter">
+        <div class="ch-num">14</div>
+        <div>
+          <div class="ch-title">创业者与探索者</div>
+          <div class="ch-points"><span>为什么未来属于适应者</span><span class="sep">·</span><span>不确定性的价值</span></div>
+        </div>
+      </li>
+      <li class="chapter">
+        <div class="ch-num">15</div>
+        <div>
+          <div class="ch-title">AI 时代的新精英</div>
+          <div class="ch-points"><span>审美</span><span class="sep">·</span><span>判断力</span><span class="sep">·</span><span>哲学</span></div>
+        </div>
+      </li>
+      <li class="chapter">
+        <div class="ch-num">16</div>
+        <div>
+          <div class="ch-title">文明从生存走向探索</div>
+          <div class="ch-points"><span>人类第一次摆脱生存压力</span></div>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- 第五部 -->
+  <section class="part p5">
+    <div class="part-head">
+      <span class="part-num">第五部</span>
+      <h2 class="part-title">死亡之后</h2>
+    </div>
+    <ol class="chapters">
+      <li class="chapter">
+        <div class="ch-num">17</div>
+        <div>
+          <div class="ch-title">死亡是伟大的发明</div>
+          <div class="ch-points"><span>为什么生命需要死亡</span><span class="sep">·</span><span>避免过拟合</span></div>
+        </div>
+      </li>
+      <li class="chapter">
+        <div class="ch-num">18</div>
+        <div>
+          <div class="ch-title">硅基智能需要死亡吗</div>
+          <div class="ch-points"><span>AI 遗传</span><span class="sep">·</span><span>AI 繁殖</span><span class="sep">·</span><span>AI 文明</span></div>
+        </div>
+      </li>
+      <li class="chapter">
+        <div class="ch-num">19</div>
+        <div>
+          <div class="ch-title">什么是自我</div>
+          <div class="ch-points"><span>记忆</span><span class="sep">·</span><span>人格</span><span class="sep">·</span><span>灵魂</span></div>
+        </div>
+      </li>
+      <li class="chapter">
+        <div class="ch-num">20</div>
+        <div>
+          <div class="ch-title">后人类时代</div>
+          <div class="ch-points"><span>碳基与硅基共生</span><span class="sep">·</span><span>文明的新形态</span></div>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- 终章 -->
+  <section class="finale">
+    <div class="f-num">终章 · Finale</div>
+    <div class="f-title">人类操作系统 <span class="hl">2.0</span></div>
+    <p class="f-body">
+      人类过去<strong>五千年</strong>的文明，是在<span class="gold">短寿命、低容错、碳基智能垄断</span>的条件下发展出来的。<br><br>
+      而未来<strong>五十年</strong>——<span class="green">长寿命、高容错、碳硅共存</span>，将迫使我们重新思考教育、婚姻、职业、财富、死亡，乃至<strong>人的定义</strong>。
+    </p>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p>从生存文明进入探索文明 · 目录 · 2026 · <a href="../index.html">返回索引</a></p>
+</footer>
+
+<script>
+  const blocks = document.querySelectorAll('.part, .finale');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  blocks.forEach(b => observer.observe(b));
+</script>
+
+</body>
+</html>
