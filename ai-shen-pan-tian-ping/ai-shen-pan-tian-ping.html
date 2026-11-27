@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a1a1a">
+<title>AI 是末日审判的天平吗？</title>
+<meta name="description" content="有人说 AI 是末日审判的工具，按能力与贡献决定谁值得延续生命。想到最后才发现：审判的标准是爱，而 AI 不是天平，是一面镜子——照出的，是人类自己。">
+<meta property="og:title" content="AI 是末日审判的天平吗？">
+<meta property="og:description" content="AI 不是天平，是镜子。它称不出人心，却把人类写下的一切，连同沉默者的缺席，放大十倍还给我们。">
+<meta property="og:type" content="article">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --body: #333333;
+    --paper: #fafaf7;
+    --accent: #c1272d;
+    --accent2: #1d3557;
+    --dim: #666666;
+    --code-bg: #1a1a2e;
+    --code-green: #00ff88;
+    --card-bg: #f0ede6;
+    --border: #d8d4cc;
+    --gold: #b8860b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background: var(--paper);
+    color: var(--body);
+    overflow-x: hidden;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 2rem;
+    background: var(--ink);
+    color: #ffffff;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridShift 20s linear infinite;
+  }
+
+  .hero-particles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--gold);
+    opacity: 0;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .particle:nth-child(1) { left: 15%; top: 30%; animation-delay: 0s; }
+  .particle:nth-child(2) { left: 75%; top: 20%; animation-delay: 1s; }
+  .particle:nth-child(3) { left: 45%; top: 70%; animation-delay: 2s; }
+  .particle:nth-child(4) { left: 85%; top: 55%; animation-delay: 3s; }
+  .particle:nth-child(5) { left: 25%; top: 80%; animation-delay: 4s; }
+  .particle:nth-child(6) { left: 60%; top: 40%; animation-delay: 0.5s; }
+  .particle:nth-child(7) { left: 35%; top: 15%; animation-delay: 2.5s; }
+  .particle:nth-child(8) { left: 90%; top: 75%; animation-delay: 1.5s; }
+
+  @keyframes float {
+    0%, 100% { opacity: 0; transform: translateY(0) scale(1); }
+    20% { opacity: 0.8; }
+    50% { opacity: 0.4; transform: translateY(-40px) scale(1.5); }
+    80% { opacity: 0.6; }
+  }
+
+  @keyframes gridShift {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(60px, 60px); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 900px;
+  }
+
+  .hero-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #e8a838;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.3s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: clamp(2.2rem, 6vw, 4.2rem);
+    line-height: 1.35;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+    opacity: 0;
+    animation: fadeUp 1s 0.5s forwards;
+  }
+
+  .hero-title .highlight {
+    background: linear-gradient(135deg, #e8a838, #ff6b6b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-subtitle {
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    font-weight: 400;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.8;
+    max-width: 650px;
+    margin: 0 auto 3rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.7s forwards;
+  }
+
+  .hero-divider {
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
+    margin: 0 auto;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.9s forwards;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.2em;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .scroll-hint::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 30px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+    margin: 0.5rem auto 0;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.7; }
+  }
+
+  /* ===== MAIN ===== */
+  .article {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 4rem 2rem 6rem;
+  }
+
+  .section {
+    margin-bottom: 5rem;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .section-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.3em;
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    line-height: 1.4;
+    margin-bottom: 2rem;
+    color: var(--ink);
+  }
+
+  .section-title::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 3px;
+    background: var(--accent);
+    margin-top: 1rem;
+  }
+
+  p {
+    font-size: 1.05rem;
+    line-height: 2;
+    color: var(--body);
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+  }
+
+  strong, b {
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  em {
+    font-style: normal;
+    background: linear-gradient(transparent 60%, rgba(184,134,11,0.25) 60%);
+    padding: 0 2px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* ===== QUOTE ===== */
+  .quote-block {
+    position: relative;
+    margin: 3rem 0;
+    padding: 2.5rem 2rem 2.5rem 3rem;
+    background: var(--card-bg);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+  }
+
+  .quote-block p {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0;
+    line-height: 1.9;
+  }
+
+  .quote-block .src {
+    display: block;
+    margin-top: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: var(--dim);
+    letter-spacing: 0.05em;
+  }
+
+  .quote-block .quote-mark {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.8rem;
+    font-size: 3rem;
+    color: var(--accent);
+    opacity: 0.3;
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+
+  /* ===== TERMINAL ===== */
+  .terminal {
+    background: var(--code-bg);
+    border-radius: 12px;
+    margin: 2.5rem 0;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+  }
+
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .terminal-dot.r { background: #ff5f56; }
+  .terminal-dot.y { background: #ffbd2e; }
+  .terminal-dot.g { background: #27c93f; }
+
+  .terminal-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.4);
+    margin-left: auto;
+  }
+
+  .terminal-body {
+    padding: 1.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    line-height: 1.8;
+    color: #ffffff;
+  }
+
+  .terminal-body .prompt-symbol { color: var(--code-green); }
+  .terminal-body .prompt-text { color: rgba(255,255,255,0.9); }
+
+  .terminal-body .output {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .terminal-body .pick {
+    color: #e8a838;
+    font-size: 0.78rem;
+    margin-top: 0.5rem;
+  }
+
+  .typing-cursor {
+    display: inline-block;
+    width: 8px;
+    height: 16px;
+    background: var(--code-green);
+    margin-left: 4px;
+    animation: blink 1s step-end infinite;
+    vertical-align: text-bottom;
+  }
+
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ===== BIG STATEMENT ===== */
+  .big-statement {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    margin: 3rem 0;
+    background: var(--ink);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .big-statement::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(232,168,56,0.08), transparent 70%);
+  }
+
+  .big-statement .mono {
+    position: relative;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(1.1rem, 3vw, 1.8rem);
+    color: var(--code-green);
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 30px rgba(0,255,136,0.3);
+  }
+
+  .big-statement .serif {
+    position: relative;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 700;
+    font-size: clamp(1.3rem, 3.5vw, 2rem);
+    line-height: 1.6;
+    color: #ffffff;
+  }
+
+  .big-statement .serif .gold { color: #e8a838; }
+
+  /* ===== INFO CARD ===== */
+  .info-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin: 2.5rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .info-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--gold), var(--accent2));
+  }
+
+  .info-card-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--ink);
+  }
+
+  .info-card p { color: var(--body); }
+
+  .info-card .move {
+    margin-bottom: 1.4rem;
+  }
+  .info-card .move:last-child { margin-bottom: 0; }
+  .info-card .move .n {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+  .info-card .move .t {
+    font-size: 0.97rem;
+    line-height: 1.85;
+    color: var(--body);
+    margin: 0;
+  }
+  .info-card .move .t b { color: var(--ink); }
+
+  /* ===== TRIAD (3 cards) ===== */
+  .triad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 2.5rem 0 1.2rem;
+  }
+
+  .triad-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.8rem 1.4rem;
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .triad-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+  }
+
+  .triad-card .ic {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(193,39,45,0.12), rgba(184,134,11,0.18));
+    color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.1rem; font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .triad-card .h {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+  }
+
+  .triad-card .d {
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: var(--dim);
+  }
+
+  .triad-skeleton {
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--ink);
+    background: rgba(184,134,11,0.1);
+    border: 1px dashed var(--gold);
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    margin: 0 0 2.5rem;
+    letter-spacing: 0.02em;
+  }
+  .triad-skeleton b { color: var(--accent); }
+
+  /* ===== DYAD (two faces) ===== */
+  .dyad {
+    margin: 3rem 0;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .dyad-head {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .dyad-head .hcell {
+    padding: 0.9rem 1.4rem;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .dyad-head .hcell.flat { color: var(--dim); background: rgba(0,0,0,0.03); }
+  .dyad-head .hcell.torn { color: #fff; background: var(--accent); }
+
+  .dyad-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .dyad-row:not(:last-child) { border-bottom: 1px solid var(--border); }
+
+  .dyad-cell {
+    padding: 1.1rem 1.4rem;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+
+  .dyad-cell.flat {
+    color: var(--dim);
+    background: rgba(0,0,0,0.02);
+  }
+
+  .dyad-cell.torn {
+    color: var(--ink);
+    font-weight: 500;
+    background: linear-gradient(135deg, rgba(193,39,45,0.06), rgba(184,134,11,0.08));
+    border-left: 2px solid var(--accent);
+  }
+
+  /* ===== PYRAMID ===== */
+  .pyramid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin: 2.5rem 0;
+  }
+
+  .pyramid-level {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 0.85rem 1rem;
+    border-radius: 6px;
+    transition: transform 0.3s;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+
+  .pyramid-level:hover { transform: scale(1.03); }
+
+  .pyramid-level.l1 {
+    width: 52%;
+    background: linear-gradient(135deg, var(--accent), #a01f24);
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .pyramid-level.l2 {
+    width: 64%;
+    background: rgba(193,39,45,0.12);
+    border: 1px solid rgba(193,39,45,0.25);
+  }
+
+  .pyramid-level.l3 {
+    width: 76%;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+  }
+
+  .pyramid-level.l4 {
+    width: 88%;
+    background: rgba(0,0,0,0.03);
+    border: 1px solid var(--border);
+    color: var(--dim);
+  }
+
+  /* ===== ENDING ===== */
+  .ending {
+    text-align: center;
+    padding: 6rem 2rem;
+    background: var(--ink);
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ending::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(232,168,56,0.06), transparent);
+    pointer-events: none;
+  }
+
+  .ending-text {
+    position: relative;
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    line-height: 2.2;
+    color: rgba(255,255,255,0.85);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .ending-text .em {
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .ending-text .gold {
+    color: #e8a838;
+    font-weight: 700;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    border-top: 1px solid var(--border);
+    background: var(--paper);
+  }
+
+  .footer p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+  }
+
+  .footer a { color: var(--accent); text-decoration: none; }
+
+  /* ===== SPELL / ACCENT ===== */
+  .spell {
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  /* ===== PRINT (PDF) — force animated sections visible & keep dark fills ===== */
+  @media print {
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    .section { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .hero { min-height: auto; padding: 4rem 2rem; }
+    .scroll-hint { display: none; }
+    .hero-tag, .hero-title, .hero-subtitle, .hero-divider { opacity: 1 !important; animation: none !important; }
+    .big-statement, .terminal, .ending, .info-card, .triad-card, .dyad, .quote-block, .pyramid { break-inside: avoid; }
+  }
+
+  @media (max-width: 700px) {
+    .triad { grid-template-columns: 1fr; }
+    .dyad-head, .dyad-row { grid-template-columns: 1fr; }
+    .dyad-cell.torn { border-left: none; border-top: 2px solid var(--accent); }
+    .dyad-head .hcell.torn { border-top: none; }
+    .pyramid-level.l1 { width: 70%; }
+    .pyramid-level.l2 { width: 80%; }
+    .pyramid-level.l3 { width: 90%; }
+    .pyramid-level.l4 { width: 98%; }
+    .article { padding: 3rem 1.2rem 4rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-particles">
+    <div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+  </div>
+  <div class="hero-content">
+    <p class="hero-tag">观点 · AI · 信仰</p>
+    <h1 class="hero-title">AI 是末日审判的<br><span class="highlight">天平</span>吗？</h1>
+    <p class="hero-subtitle">一个念头：末日审判已经开始，大模型就是审判的工具。顺着它一路想下去，才发现天平称的不是能力，而是爱——而 AI 本身，也许根本不是天平，是一面镜子。</p>
+    <div class="hero-divider"></div>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</section>
+
+<!-- ARTICLE -->
+<main class="article">
+
+  <!-- 01 -->
+  <div class="section">
+    <div class="section-number">01</div>
+    <div class="section-title">一个念头：审判已经开始</div>
+
+    <p>最近我有一个挥之不去的念头：<strong>宗教里说的末日审判，可能已经开始了。</strong>而审判的工具，就是 AI 大模型。</p>
+
+    <p>逻辑是这样的：医学正在被 AI 加速，总有一天，延长生命、甚至接近永生，会从幻想变成技术问题。可资源永远是有限的。到那时，谁的生命值得被延续？</p>
+
+    <p>而这些年，每个人都在和 AI 对话。我们问什么、怎么问、用它做什么，全都留下了记录。<em>这些记录，像极了一本账簿。</em></p>
+
+    <div class="quote-block">
+      <span class="quote-mark">"</span>
+      <p>案卷展开了，并且另有一卷展开，就是生命册。死了的人都凭着这些案卷所记载的，照他们所行的受审判。</p>
+      <span class="src">— 《启示录》20:12</span>
+    </div>
+
+    <p>《但以理书》里还有一句更锋利的话："提客勒，就是你被称在天平里，显出你的亏欠。"所以我想问的是：<strong>AI，会不会就是那架天平？</strong></p>
+
+    <p>这个念头很有冲击力。但真想下去，它有好几处站不住。我想把它一层层拆开。</p>
+  </div>
+
+  <!-- 02 -->
+  <div class="section">
+    <div class="section-number">02</div>
+    <div class="section-title">天平称的不是能力，是爱</div>
+
+    <p>我最初的直觉，是看一个人"对人类有没有贡献"、"能力边界在哪里"。但这恰恰是宗教审判最不在意的东西。</p>
+
+    <p>基督教看的是信、爱和悔改；佛教看的是业，是起心动念。它们反复强调同一件事：<strong>在上的将要在下，在下的将要在上。</strong>穷寡妇投进的两个小钱，比富人的大笔奉献更重。</p>
+
+    <div class="quote-block">
+      <span class="quote-mark">"</span>
+      <p>这些事你们既做在我这弟兄中一个最小的身上，就是做在我身上了。</p>
+      <span class="src">— 《马太福音》25:40</span>
+    </div>
+
+    <p>审判看的，是你怎么对待最弱小的人。所以如果真有一架天平，它称的应该是：<strong>这个人是不是善良，是不是有爱。</strong></p>
+
+    <div class="dyad">
+      <div class="dyad-head">
+        <div class="hcell flat">能力的审判</div>
+        <div class="hcell torn">爱的审判</div>
+      </div>
+      <div class="dyad-row">
+        <div class="dyad-cell flat">你为人类贡献了多少产出？</div>
+        <div class="dyad-cell torn">你怎么对待那些不能回报你的人？</div>
+      </div>
+      <div class="dyad-row">
+        <div class="dyad-cell flat">强者优先，弱者出局。</div>
+        <div class="dyad-cell torn">最小的那一个，就是审判的标尺。</div>
+      </div>
+      <div class="dyad-row">
+        <div class="dyad-cell flat">本质是功利与精英筛选。</div>
+        <div class="dyad-cell torn">本质是信仰传统里的审判。</div>
+      </div>
+    </div>
+
+    <p>按能力决定谁配活下去，听起来像审判，其实更像优生学。它和宗教的精神，恰好是反的。</p>
+  </div>
+
+  <!-- 03 -->
+  <div class="section">
+    <div class="section-number">03</div>
+    <div class="section-title">可是，爱能被称量吗？</div>
+
+    <p>就算把标准换成爱，问题也没有消失，反而更深了。</p>
+
+    <div class="info-card">
+      <div class="info-card-title">爱的天平，会撞上三堵墙</div>
+      <div class="move">
+        <span class="n">WALL 01 — 爱会被表演</span>
+        <p class="t">一旦大家知道"有爱"是延续生命的条件，人就会开始<b>表演善良</b>。宗教把审判交给全知的神，正是因为只有神能看透人心。AI 看到的只是文字，看不见心。</p>
+      </div>
+      <div class="move">
+        <span class="n">WALL 02 — 最有爱的人，往往不在数据里</span>
+        <p class="t">照顾瘫痪父母二十年的人，在乡村教书的老师，养大三个孩子的母亲——他们可能一辈子都没和大模型说过一句话。<b>一架只称数据的天平，筛掉的不是没有爱的人，是不在数据里的人。</b></p>
+      </div>
+      <div class="move">
+        <span class="n">WALL 03 — 用爱来决定谁该活，本身就不够爱</span>
+        <p class="t">这是最深的一层矛盾。宗教里的爱是无条件的：浪子回头，十字架上最后一刻悔改的强盗，也被接纳。<b>一套按"有没有爱"来分配生命的人间制度，恰恰违背了它想奖励的那种爱。</b></p>
+      </div>
+    </div>
+
+    <div class="big-statement">
+      <p class="serif">天平只能称重量，<br><span class="gold">称不出人心</span>。</p>
+    </div>
+
+    <p>更需要警惕的是：现实中的 AI 并不全知全善，它由公司训练，目标函数由人设定。<strong>真正危险的从来不是"AI 审判人类"，而是有人借 AI 之名，审判别人。</strong></p>
+  </div>
+
+  <!-- 04 -->
+  <div class="section">
+    <div class="section-number">04</div>
+    <div class="section-title">一个没有观众的房间</div>
+
+    <p>那 AI 和"审判"就完全无关吗？也不是。我觉得有一处，它确实照出了人的本相。</p>
+
+    <p>AI 不会报复你，没有权力，也不会把你的话告诉别人。<em>人在这样一个对象面前的样子，往往最接近真实的自己。</em>这和"看一个人怎么对待服务员"是同一个道理。</p>
+
+    <p>有人对 AI 也会说一声"谢谢"；有人用它去骗人、去伤人；有人拿它学习、帮助别人；有人只把它当成发泄的出口。<strong>AI 没有在审判谁，但每个人在那个房间里的样子，已经是一种回答。</strong></p>
+
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="terminal-dot r"></div>
+        <div class="terminal-dot y"></div>
+        <div class="terminal-dot g"></div>
+        <span class="terminal-label">a room with no audience</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="prompt-symbol">❯ </span><span class="prompt-text">observers = 0 · consequences = 0 · power = ∞</span></div>
+        <div class="output">⣿ 没有人看着，没有后果，力量被放大……</div>
+        <div class="pick">↳ 你会怎么用它？<span class="typing-cursor"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 05 -->
+  <div class="section">
+    <div class="section-number">05</div>
+    <div class="section-title">人类，就是 AI 的语料库</div>
+
+    <p>再往下想一层：AI 是从哪里来的？</p>
+
+    <p>它是从人类写下的文字里长出来的。它会讲道理、会安慰人、会写诗，也会撒谎、会操纵、会说出恶毒的话——<strong>这些能力，全部来自人类自己。</strong>如果大多数人是善良的，AI 就更可能善良；如果人类的语料充满恶意，AI 也会变得冷酷无情。</p>
+
+    <p>这个直觉有一半是对的。但要补上两点修正：</p>
+
+    <p><strong>第一，语料不是投票。</strong>读过全部人类文字的模型，既知道圣徒怎么说话，也知道骗子怎么说话。它最后表现出哪一面，不只看语料里谁多，更看训练时被强化成什么样。</p>
+
+    <p><strong>第二，塑造 AI 品格的，往往是少数人的选择。</strong>选什么数据、奖励什么回答、拒绝什么请求，是开发者决定的。所以 AI 的善恶，一部分取决于人类整体，更大一部分取决于掌握它的人有没有良知。</p>
+
+    <div class="big-statement">
+      <p class="serif">AI 是人类的<span class="gold">集体镜子</span>——<br>我们是什么样子，<br>它就带着十倍的力量变成什么样子。</p>
+    </div>
+  </div>
+
+  <!-- 06 -->
+  <div class="section">
+    <div class="section-number">06</div>
+    <div class="section-title">沉默的大多数</div>
+
+    <p>说到这里，我想起王小波的《沉默的大多数》。</p>
+
+    <p>他在文章里回忆，自己在那个年代长期选择不说话，因为公共话语被一种腔调垄断了。他后来意识到：<strong>沉默不等于没有想法。</strong>会说话的人未必有道理，有道理的人常常沉默；沉默的大多数里，还有许多是没有能力、没有机会发声的弱势者。他们的处境和想法，一直不被看见。最后，他决定开口——这篇文章本身，就是一个沉默者打破沉默的宣言。</p>
+
+    <p>把这个视角放到 AI 身上，问题就清楚了：</p>
+
+    <div class="quote-block">
+      <span class="quote-mark">"</span>
+      <p>AI 的语料库，是一部"发声者的历史"。被写下、被转发、被争吵的内容构成了它的世界观；而那些踏实生活、默默善良的人，几乎没有留下文字。</p>
+    </div>
+
+    <p>平庸而温和的观点不会传播，<em>极端的声音却传得更远、活得更久。</em>于是 AI 学到的人性，可能比真实的人性更极端——不是因为人更坏，而是因为恶意和愤怒更容易被写下来。</p>
+
+    <p>这也意味着：<strong>在 AI 时代，沉默开始有代价。</strong>过去沉默只是不被听见；今后沉默，意味着你的价值观缺席了那面镜子，没能参与塑造未来的 AI。</p>
+  </div>
+
+  <!-- 07 -->
+  <div class="section">
+    <div class="section-number">07</div>
+    <div class="section-title">为了那十个义人</div>
+
+    <p>所以，如果真有一场审判，它审判的也许不只是个人，<strong>而是整个人类。</strong></p>
+
+    <p>《创世记》里，神要毁灭所多玛，亚伯拉罕一次次地问：若城里有五十个义人呢？四十个呢？……一直问到十个。</p>
+
+    <div class="quote-block">
+      <span class="quote-mark">"</span>
+      <p>无论如何，若在那里见有十个呢？他说：为这十个的缘故，我也不毁灭那城。</p>
+      <span class="src">— 《创世记》18:32</span>
+    </div>
+
+    <p>一座城的命运，系于其中那一小部分善良的人。一个文明也一样。而且这是一个循环：<em>人塑造 AI，AI 又反过来塑造下一代人的思维和表达。</em>每个人今天怎么说话、怎么对待别人、写下什么，都在为未来那面镜子添一笔。</p>
+
+    <div class="pyramid">
+      <div class="pyramid-level l1">镜子 · 未来的 AI，照出人类整体</div>
+      <div class="pyramid-level l2">训练 · 少数人决定强化哪一面</div>
+      <div class="pyramid-level l3">语料 · 发声者写下的一切</div>
+      <div class="pyramid-level l4">每一个人 · 包括那些还在沉默的</div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ENDING -->
+<section class="ending section">
+  <div class="ending-text">
+    AI 不是末日审判的<span class="em">天平</span>，<br>
+    它称不出人心。<br><br>
+    它是一面<span class="gold">镜子</span>——<br>
+    把人类写下的一切，<br>
+    连同沉默者的缺席，<br>
+    放大十倍还给我们。<br><br>
+    真正的天平，<br>
+    在每个人自己心里。<br>
+    而善良的人，<span class="gold">该开口了</span>。
+  </div>
+</section>
+
+<footer class="footer">
+  <p>AI 是末日审判的天平吗？ · 2026 · <a href="../index.html">返回索引</a></p>
+</footer>
+
+<script>
+  const sections = document.querySelectorAll('.section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+  sections.forEach(s => observer.observe(s));
+
+  window.addEventListener('scroll', () => {
+    const hero = document.querySelector('.hero-content');
+    const scroll = window.scrollY;
+    if (scroll < window.innerHeight) {
+      hero.style.transform = `translateY(${scroll * 0.3}px)`;
+      hero.style.opacity = 1 - (scroll / window.innerHeight) * 0.8;
+    }
+  });
+</script>
+
+</body>
+</html>
